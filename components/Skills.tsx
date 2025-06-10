@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Skill } from '../types';
 import { MOCK_SKILLS } from '../data';
+// @ts-ignore
+import Typewriter from 'typewriter-effect/dist/core';
 
 const SkillCard: React.FC<{ skill: Skill; isVisible: boolean; delay: number }> = ({ skill, isVisible, delay }) => {
   return (
@@ -35,12 +37,70 @@ const Skills: React.FC = () => {
   const skillCategories = ['Languages', 'Frontend', 'Backend', 'Databases', 'Tools'] as const;
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const typewriterRef = useRef<HTMLParagraphElement>(null);
+  const [hasTyped, setHasTyped] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          setIsInView(entry.isIntersecting && entry.intersectionRatio > 0.2);
+          const isVisible = entry.isIntersecting && entry.intersectionRatio > 0.2;
+          setIsInView(isVisible);
+          
+          // Start typewriter when section comes into view for the first time
+          if (isVisible && !hasTyped && headingRef.current && typewriterRef.current) {
+            setHasTyped(true);
+            
+            // First typewriter for heading
+            const headingTypewriter = new Typewriter(headingRef.current, {
+              loop: false,
+              delay: 80,
+              deleteSpeed: 30,
+            });
+
+            // Second typewriter for description (starts after heading is done)
+            const descriptionTypewriter = new Typewriter(typewriterRef.current, {
+              loop: false,
+              delay: 60,
+              deleteSpeed: 30,
+            });
+
+            // Start with heading
+            headingTypewriter
+              .typeString('My Skills')
+              .callFunction(() => {
+                // Hide cursor from heading after completion
+                if (headingRef.current) {
+                  const headingElement = headingRef.current;
+                  const cursor = headingElement.querySelector('.Typewriter__cursor');
+                  if (cursor) {
+                    (cursor as HTMLElement).style.display = 'none';
+                  }
+                }
+                
+                // After heading is complete, start description
+                setTimeout(() => {
+                  descriptionTypewriter
+                    .typeString("That's what I do, I drink and I know things.")
+                    .pauseFor(1500)
+                    .deleteChars(24) // Delete "drink and I know things."
+                    .typeString("code and I know things.")
+                    .callFunction(() => {
+                      // Hide cursor from description after completion
+                      if (typewriterRef.current) {
+                        const descriptionElement = typewriterRef.current;
+                        const cursor = descriptionElement.querySelector('.Typewriter__cursor');
+                        if (cursor) {
+                          (cursor as HTMLElement).style.display = 'none';
+                        }
+                      }
+                    })
+                    .start();
+                }, 500); // Brief pause before starting description
+              })
+              .start();
+          }
         });
       },
       {
@@ -58,7 +118,7 @@ const Skills: React.FC = () => {
         observer.unobserve(sectionRef.current);
       }
     };
-  }, []);
+  }, [hasTyped]);
 
   return (
     <section 
@@ -67,7 +127,16 @@ const Skills: React.FC = () => {
       className="snap-start min-h-screen flex flex-col pt-20"
     >
       <div className="container mx-auto px-4 sm:px-2 flex flex-col flex-1 py-4 sm:py-2 max-w-7xl">
-        <h2 className="text-2xl sm:text-2xl lg:text-4xl font-bold text-center mb-6 sm:mb-2 text-theme-primary flex-shrink-0">My Skills</h2>
+        <div className="text-center mb-6 sm:mb-4 flex-shrink-0">
+          <h2 
+            ref={headingRef}
+            className="text-2xl sm:text-2xl lg:text-4xl font-bold text-theme-primary mb-3 min-h-[1.2em]"
+          />
+          <p 
+            ref={typewriterRef}
+            className="text-base sm:text-lg lg:text-xl text-theme-secondary max-w-3xl mx-auto min-h-[2.5em] leading-relaxed"
+          />
+        </div>
         
         {/* Mobile View - Compact Grid */}
         <div className="flex-1 flex flex-col gap-4 sm:gap-4 md:hidden">

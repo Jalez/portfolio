@@ -53,7 +53,7 @@ import {
 // Import generic icons for VS Code
 import { VscCode } from 'react-icons/vsc';
 
-export const ABOUT_DESCRIPTION = "I'm a passionate full-stack developer with expertise in modern web technologies. I love creating efficient, scalable solutions and turning ideas into reality through clean, maintainable code.";
+export const ABOUT_DESCRIPTION = "Full-stack developer who loves turning wild ideas into clean, working code. I build things that matter, solve real problems, and maybe break a few things along the way (in a good way, I promise).";
 
 // Technology-specific icons
 export const JavaScriptIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiJavascript {...props} />;

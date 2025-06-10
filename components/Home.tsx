@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { ABOUT_DESCRIPTION } from '../constants';
 import Card from './Card';
 import { useScrollFade } from '../hooks/useScrollFade';
 import Skills from './Skills';

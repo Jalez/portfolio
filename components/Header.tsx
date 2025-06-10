@@ -38,7 +38,7 @@ const Header: React.FC = () => {
       const scrollY = scrollContainer?.scrollTop || window.scrollY;
       
       // Check which section is currently in view
-      const sections = ['hero', 'skills', 'projects', 'testimonials', 'contact'];
+      const sections = ['hero', 'skills', 'projects', 'testimonial-form', 'testimonials', 'contact'];
       const headerHeight = 80;
       
       for (let i = sections.length - 1; i >= 0; i--) {

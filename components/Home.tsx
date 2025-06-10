@@ -4,6 +4,7 @@ import Card from './Card';
 import { useScrollFade } from '../hooks/useScrollFade';
 import Skills from './Skills';
 import Projects from './Projects';
+import TestimonialSubmission from './TestimonialSubmission';
 import Testimonials from './Testimonials';
 import Contact from './Contact';
 
@@ -68,6 +69,9 @@ const Home: React.FC = () => {
 
       {/* Projects Section */}
       <Projects />
+
+      {/* Testimonial Submission Section */}
+      <TestimonialSubmission />
 
       {/* Testimonials Section */}
       <Testimonials />

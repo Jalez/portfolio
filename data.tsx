@@ -65,6 +65,7 @@ export const NAV_LINKS: NavLink[] = [
   { href: '#hero', label: 'Home' },
   { href: '#skills', label: 'Skills' },
   { href: '#projects', label: 'Projects' },
+  { href: '#testimonial-form', label: 'Share' },
   { href: '#testimonials', label: 'Testimonials' },
   { href: '#contact', label: 'Contact' },
 ];

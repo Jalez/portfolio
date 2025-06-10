@@ -19,8 +19,8 @@ export interface Testimonial {
   title?: string; // Made optional
   company?: string;
   imageUrl?: string;
-  // Database-specific fields
-  user_id?: number;
+  // Database-specific fields - updated for anonymous submissions
+  user_id?: number | null; // Allow null for anonymous testimonials
   is_approved?: boolean;
   created_at?: string;
   updated_at?: string;

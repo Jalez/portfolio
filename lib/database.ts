@@ -5,7 +5,7 @@ export interface User {
   email: string;
   name: string;
   image_url?: string;
-  provider: 'google' | 'facebook' | 'admin';
+  provider: 'admin'; // Only admin users now
   provider_id?: string;
   password_hash?: string; // For admin users with password authentication
   is_admin: boolean;
@@ -15,20 +15,21 @@ export interface User {
 
 export interface DatabaseTestimonial {
   id: number;
-  user_id: number;
+  user_id?: number | null; // Made optional for anonymous submissions
+  name: string; // Name of person giving testimonial
   quote: string;
   title?: string;
   company?: string;
   is_approved: boolean;
   created_at: string;
   updated_at: string;
-  // Joined user data
+  // Joined user data (only for admin-submitted testimonials)
   author?: string;
   imageUrl?: string;
 }
 
 export class DatabaseService {
-  // User operations
+  // User operations (only for admin users now)
   static async createUser(userData: {
     email: string;
     name: string;
@@ -58,16 +59,17 @@ export class DatabaseService {
     return result.rows[0] as User || null;
   }
 
-  // Testimonial operations
+  // Testimonial operations - updated for anonymous submissions
   static async createTestimonial(testimonialData: {
-    user_id: number;
+    user_id?: number | null;
+    name: string;
     quote: string;
     title?: string;
     company?: string;
   }): Promise<DatabaseTestimonial> {
     const result = await sql`
-      INSERT INTO testimonials (user_id, quote, title, company)
-      VALUES (${testimonialData.user_id}, ${testimonialData.quote}, ${testimonialData.title || null}, ${testimonialData.company || null})
+      INSERT INTO testimonials (user_id, name, quote, title, company)
+      VALUES (${testimonialData.user_id || null}, ${testimonialData.name}, ${testimonialData.quote}, ${testimonialData.title || null}, ${testimonialData.company || null})
       RETURNING *
     `;
     return result.rows[0] as DatabaseTestimonial;
@@ -80,7 +82,7 @@ export class DatabaseService {
         u.name as author,
         u.image_url as imageUrl
       FROM testimonials t
-      JOIN users u ON t.user_id = u.id
+      LEFT JOIN users u ON t.user_id = u.id
       WHERE t.is_approved = true
       ORDER BY t.created_at DESC
     `;
@@ -94,7 +96,7 @@ export class DatabaseService {
         u.name as author,
         u.image_url as imageUrl
       FROM testimonials t
-      JOIN users u ON t.user_id = u.id
+      LEFT JOIN users u ON t.user_id = u.id
       ORDER BY t.created_at DESC
     `;
     return result.rows as DatabaseTestimonial[];
@@ -121,7 +123,7 @@ export class DatabaseService {
         u.name as author,
         u.image_url as imageUrl
       FROM testimonials t
-      JOIN users u ON t.user_id = u.id
+      LEFT JOIN users u ON t.user_id = u.id
       WHERE t.user_id = ${userId}
       ORDER BY t.created_at DESC
     `;

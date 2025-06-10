@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import { TestimonialAPI } from '../api/testimonials/index';
 
 interface TestimonialFormProps {
@@ -7,8 +6,8 @@ interface TestimonialFormProps {
 }
 
 const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
-  const { isAuthenticated, token, user } = useAuth();
   const [formData, setFormData] = useState({
+    name: '',
     quote: '',
     title: '',
     company: '',
@@ -20,8 +19,8 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!isAuthenticated || !token) {
-      setError('Please log in to submit a testimonial');
+    if (!formData.name.trim()) {
+      setError('Please provide your name');
       return;
     }
 
@@ -34,9 +33,9 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
     setError('');
 
     try {
-      await TestimonialAPI.createTestimonial(formData, token);
+      await TestimonialAPI.createTestimonial(formData);
       setSuccess(true);
-      setFormData({ quote: '', title: '', company: '' });
+      setFormData({ name: '', quote: '', title: '', company: '' });
       onSubmit?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit testimonial');
@@ -49,23 +48,6 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
-
-  if (!isAuthenticated) {
-    return (
-      <div className="max-w-2xl mx-auto p-6 bg-theme-card rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold text-theme-primary mb-4">Share Your Experience</h3>
-        <p className="text-theme-secondary mb-4">
-          Please sign in to leave a testimonial about your experience working with me.
-        </p>
-        <button
-          onClick={() => window.location.href = '/login'}
-          className="bg-theme text-white px-6 py-2 rounded-lg hover:bg-theme-hover transition-colors"
-        >
-          Sign In to Leave Testimonial
-        </button>
-      </div>
-    );
-  }
 
   if (success) {
     return (
@@ -95,7 +77,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
     <div className="max-w-2xl mx-auto p-6 bg-theme-card rounded-lg shadow-lg">
       <h3 className="text-xl font-semibold text-theme-primary mb-4">Share Your Experience</h3>
       <p className="text-theme-secondary mb-6">
-        Signed in as <strong>{user?.name}</strong>. Your testimonial will be reviewed before appearing on the site.
+        Share your experience working with me. All testimonials are reviewed before being published.
       </p>
 
       {error && (
@@ -105,6 +87,22 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-theme-primary mb-2">
+            Your Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            placeholder="e.g., John Smith"
+            className="w-full px-3 py-2 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
+          />
+        </div>
+
         <div>
           <label htmlFor="quote" className="block text-sm font-medium text-theme-primary mb-2">
             Your Testimonial <span className="text-red-500">*</span>

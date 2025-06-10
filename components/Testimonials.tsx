@@ -42,10 +42,10 @@ const Testimonials: React.FC = () => {
       const transformedTestimonials: Testimonial[] = data.map((testimonial: DatabaseTestimonial) => ({
         id: testimonial.id,
         quote: testimonial.quote,
-        author: testimonial.author || 'Anonymous',
+        author: testimonial.name, // Use the name field directly from testimonial
         title: testimonial.title,
         company: testimonial.company,
-        imageUrl: testimonial.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.author || 'User')}&background=6366f1&color=fff&size=100`,
+        imageUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=6366f1&color=fff&size=100`, // Generate avatar from name
         user_id: testimonial.user_id,
         is_approved: testimonial.is_approved,
         created_at: testimonial.created_at,

@@ -1,6 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { DatabaseService } from '../lib/database';
-import { AuthService } from '../lib/auth';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
@@ -26,25 +25,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         break;
 
       case 'POST':
-        // Create new testimonial (authenticated)
-        const authHeader = req.headers.authorization;
-        if (!authHeader) {
-          return res.status(401).json({ error: 'Authorization header required' });
+        // Create new testimonial (no authentication required)
+        const { name, quote, title, company } = req.body;
+        
+        // Validate required fields
+        if (!name || !name.trim()) {
+          return res.status(400).json({ error: 'Name is required' });
         }
-
-        const token = authHeader.replace('Bearer ', '');
-        const payload = AuthService.verifyToken(token);
-        if (!payload) {
-          return res.status(401).json({ error: 'Invalid authentication token' });
-        }
-
-        const { quote, title, company } = req.body;
         if (!quote || !quote.trim()) {
           return res.status(400).json({ error: 'Quote is required' });
         }
 
+        // Create testimonial without user_id (anonymous submission)
         const testimonial = await DatabaseService.createTestimonial({
-          user_id: payload.userId,
+          user_id: null, // No user association needed
+          name: name.trim(),
           quote: quote.trim(),
           title: title?.trim() || null,
           company: company?.trim() || null,

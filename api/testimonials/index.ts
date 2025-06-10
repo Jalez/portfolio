@@ -2,6 +2,7 @@ import axios from 'axios';
 import { DatabaseTestimonial } from '../../lib/database';
 
 export interface TestimonialRequest {
+  name: string; // Added name field
   quote: string;
   title?: string;
   company?: string;
@@ -23,15 +24,14 @@ export class TestimonialAPI {
     }
   }
 
-  // Create a new testimonial (authenticated users only)
-  static async createTestimonial(testimonialData: TestimonialRequest, authToken: string): Promise<DatabaseTestimonial> {
+  // Create a new testimonial (no authentication required)
+  static async createTestimonial(testimonialData: TestimonialRequest): Promise<DatabaseTestimonial> {
     try {
       const response = await axios.post(
         `${API_BASE_URL}/api/testimonials`,
         testimonialData,
         {
           headers: {
-            'Authorization': `Bearer ${authToken}`,
             'Content-Type': 'application/json',
           },
         }
@@ -90,21 +90,6 @@ export class TestimonialAPI {
     } catch (error) {
       console.error('Error deleting testimonial:', error);
       throw new Error('Failed to delete testimonial');
-    }
-  }
-
-  // Get user's own testimonials
-  static async getUserTestimonials(authToken: string): Promise<DatabaseTestimonial[]> {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/api/testimonials/user`, {
-        headers: {
-          'Authorization': `Bearer ${authToken}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching user testimonials:', error);
-      throw new Error('Failed to fetch user testimonials');
     }
   }
 }

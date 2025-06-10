@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { TestimonialAPI } from '../api/testimonials/index';
+import { AuthAPI } from '../api/auth/index';
 import { DatabaseTestimonial } from '../lib/database';
 
 const AdminDashboard: React.FC = () => {
@@ -9,6 +10,15 @@ const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState<number | null>(null);
+  
+  // Password change state
+  const [passwordFormData, setPasswordFormData] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [passwordSuccess, setPasswordSuccess] = useState('');
 
   useEffect(() => {
     if (isAdmin && token) {
@@ -64,6 +74,33 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordFormData.newPassword !== passwordFormData.confirmPassword) {
+      setError('New password and confirmation do not match');
+      return;
+    }
+
+    setPasswordLoading(true);
+    setError('');
+    setPasswordSuccess('');
+
+    try {
+      await AuthAPI.changePassword(
+        passwordFormData.currentPassword,
+        passwordFormData.newPassword,
+        token!
+      );
+
+      setPasswordSuccess('Password changed successfully');
+      setPasswordFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to change password');
+    } finally {
+      setPasswordLoading(false);
+    }
+  };
+
   if (!isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-theme-background">
@@ -112,6 +149,19 @@ const AdminDashboard: React.FC = () => {
             {error}
             <button 
               onClick={() => setError('')}
+              className="float-right font-bold"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
+        {/* Success Message */}
+        {passwordSuccess && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+            {passwordSuccess}
+            <button 
+              onClick={() => setPasswordSuccess('')}
               className="float-right font-bold"
             >
               ×
@@ -242,6 +292,64 @@ const AdminDashboard: React.FC = () => {
                   </table>
                 </div>
               )}
+            </div>
+
+            {/* Password Change Form */}
+            <div className="bg-theme-card rounded-lg shadow mt-8">
+              <div className="px-6 py-4 border-b border-theme-border">
+                <h2 className="text-xl font-semibold text-theme-primary">Change Password</h2>
+              </div>
+              <div className="px-6 py-4">
+                <form onSubmit={handlePasswordChange}>
+                  <div className="grid grid-cols-1 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-theme-primary mb-1">
+                        Current Password
+                      </label>
+                      <input
+                        type="password"
+                        value={passwordFormData.currentPassword}
+                        onChange={(e) => setPasswordFormData({ ...passwordFormData, currentPassword: e.target.value })}
+                        required
+                        className="block w-full px-4 py-2 border border-theme-border rounded-lg focus:ring-2 focus:ring-theme focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-theme-primary mb-1">
+                        New Password
+                      </label>
+                      <input
+                        type="password"
+                        value={passwordFormData.newPassword}
+                        onChange={(e) => setPasswordFormData({ ...passwordFormData, newPassword: e.target.value })}
+                        required
+                        className="block w-full px-4 py-2 border border-theme-border rounded-lg focus:ring-2 focus:ring-theme focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-theme-primary mb-1">
+                        Confirm New Password
+                      </label>
+                      <input
+                        type="password"
+                        value={passwordFormData.confirmPassword}
+                        onChange={(e) => setPasswordFormData({ ...passwordFormData, confirmPassword: e.target.value })}
+                        required
+                        className="block w-full px-4 py-2 border border-theme-border rounded-lg focus:ring-2 focus:ring-theme focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <button
+                      type="submit"
+                      disabled={passwordLoading}
+                      className="w-full px-4 py-2 bg-theme text-white rounded-lg hover:bg-theme-hover transition-colors disabled:opacity-50"
+                    >
+                      {passwordLoading ? 'Changing...' : 'Change Password'}
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </>
         )}

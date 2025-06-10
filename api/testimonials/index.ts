@@ -9,8 +9,8 @@ export interface TestimonialRequest {
 }
 
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://your-vercel-app.vercel.app' 
-  : 'http://localhost:5173';
+? 'https://jaakkorajala.vercel.app' 
+: 'http://localhost:5173';
 
 export class TestimonialAPI {
   // Get all approved testimonials (public endpoint)

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://your-vercel-app.vercel.app' 
+  ? 'https://jaakkorajala.vercel.app' 
   : 'http://localhost:5173';
 
 export interface AuthResponse {
@@ -16,40 +16,12 @@ export interface AuthResponse {
 }
 
 export class AuthAPI {
-  // Handle Google OAuth callback
-  static async handleGoogleCallback(code: string): Promise<AuthResponse> {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/api/auth`, {
-        type: 'google',
-        code,
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Google OAuth error:', error);
-      throw new Error('Failed to authenticate with Google');
-    }
-  }
-
-  // Handle Facebook OAuth callback
-  static async handleFacebookCallback(code: string): Promise<AuthResponse> {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/api/auth`, {
-        type: 'facebook',
-        code,
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Facebook OAuth error:', error);
-      throw new Error('Failed to authenticate with Facebook');
-    }
-  }
-
   // Verify token and get user info
   static async verifyToken(token: string): Promise<AuthResponse['user'] | null> {
     try {
       const response = await axios.get(`${API_BASE_URL}/api/auth`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -63,7 +35,6 @@ export class AuthAPI {
   static async adminLogin(email: string, password: string): Promise<AuthResponse> {
     try {
       const response = await axios.post(`${API_BASE_URL}/api/auth`, {
-        type: 'admin',
         email,
         password,
       });
@@ -74,18 +45,20 @@ export class AuthAPI {
     }
   }
 
-  // Get OAuth URLs
-  static async getOAuthUrls() {
+  // Change admin password
+  static async changePassword(currentPassword: string, newPassword: string, token: string): Promise<void> {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/auth?provider=urls`);
-      return response.data;
+      await axios.patch(`${API_BASE_URL}/api/auth`, {
+        currentPassword,
+        newPassword,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     } catch (error) {
-      console.error('Error fetching OAuth URLs:', error);
-      // Fallback URLs for development
-      return {
-        google: 'https://accounts.google.com/o/oauth2/v2/auth',
-        facebook: 'https://www.facebook.com/v18.0/dialog/oauth',
-      };
+      console.error('Password change error:', error);
+      throw new Error(error instanceof Error ? error.message : 'Failed to change password');
     }
   }
 }

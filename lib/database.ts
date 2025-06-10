@@ -129,4 +129,13 @@ export class DatabaseService {
     `;
     return result.rows as DatabaseTestimonial[];
   }
+
+  // Update user password
+  static async updateUserPassword(userId: number, passwordHash: string): Promise<void> {
+    await sql`
+      UPDATE users 
+      SET password_hash = ${passwordHash}, updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${userId}
+    `;
+  }
 }

@@ -44,9 +44,7 @@ import {
   ApacheIcon,
   HerokuIcon,
   JsonWebTokensIcon,
-  RestApiIcon,
-  ServerlessIcon,
-  OAuthIcon,
+  StripeIcon,
   SqliteIcon,
   DynamoDBIcon,
   AwsRdsIcon,
@@ -181,9 +179,8 @@ export const MOCK_SKILLS: Skill[] = [
   { id: 42, name: 'Apache', category: 'Backend', icon: <ApacheIcon className="w-10 h-10 text-white" />, level: 55 },
   { id: 43, name: 'Heroku', category: 'Backend', icon: <HerokuIcon className="w-10 h-10 text-white" />, level: 65 },
   { id: 44, name: 'JWT', category: 'Backend', icon: <JsonWebTokensIcon className="w-10 h-10 text-white" />, level: 70 },
-  { id: 45, name: 'REST API', category: 'Backend', icon: <RestApiIcon className="w-10 h-10 text-white" />, level: 75 },
-  { id: 46, name: 'Serverless', category: 'Backend', icon: <ServerlessIcon className="w-10 h-10 text-white" />, level: 60 },
-  { id: 47, name: 'OAuth', category: 'Backend', icon: <OAuthIcon className="w-10 h-10 text-white" />, level: 65 },
+  { id: 46, name: 'Stripe', category: 'Backend', icon: <StripeIcon className="w-10 h-10 text-white" />, level: 70 },
+  { id: 48, name: 'Firebase', category: 'Backend', icon: <FirebaseIcon className="w-10 h-10 text-white" />, level: 80 },
   
   // Databases
   { id: 16, name: 'MongoDB', category: 'Databases', icon: <MongoDBIcon className="w-10 h-10 text-white" />, level: 75 },

@@ -32,8 +32,6 @@ const App: React.FC = () => {
                 </>
               } />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/auth/google/callback" element={<LoginPage />} />
-              <Route path="/auth/facebook/callback" element={<LoginPage />} />
               <Route 
                 path="/admin" 
                 element={

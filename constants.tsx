@@ -177,14 +177,12 @@ export const ServerlessIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) =
   </svg>
 );
 
-export const OAuthIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 2.18L19 6.3v4.7c0 4.26-2.94 8.27-7 9.57-4.06-1.3-7-5.31-7-9.57V6.3l7-3.12z"/>
-    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"/>
+export const StripeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg {...props} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.392 1.728-1.392 2.145 0 4.817.645 7.479 1.819v-4.031c-2.021-.696-4.301-1.056-7.479-1.056-4.823 0-8.181 2.526-8.181 6.756 0 3.196 2.584 4.982 6.687 6.212 2.935.831 3.356 1.426 3.356 2.226 0 1.009-.831 1.596-2.226 1.596-2.935 0-6.148-.645-8.966-2.226v4.301c2.584.831 5.674 1.226 8.966 1.226 5.674 0 8.966-2.584 8.966-6.756 0-3.356-2.584-5.142-6.974-6.456z"/>
   </svg>
 );
 
-// Database technology icons
 export const SqliteIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiSqlite {...props} />;
 export const DynamoDBIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiAmazondynamodb {...props} />;
 export const AwsRdsIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiAmazon {...props} />;

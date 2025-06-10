@@ -1,16 +1,12 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { DatabaseService } from '../lib/database';
-import { AuthService, OAuthService } from '../lib/auth';
+import { AuthService } from '../lib/auth.js';
+import { DatabaseService } from '../lib/database.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Enable CORS
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
-  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -20,19 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     switch (req.method) {
       case 'GET':
-        const { provider } = req.query;
-        
-        if (provider === 'urls') {
-          // Get OAuth URLs
-          const urls = {
-            google: OAuthService.getGoogleAuthUrl(),
-            facebook: OAuthService.getFacebookAuthUrl(),
-          };
-          res.status(200).json(urls);
-          break;
-        }
-
-        // Verify token
+        // Verify token and get user info
         const authHeader = req.headers.authorization;
         if (!authHeader) {
           return res.status(401).json({ error: 'Authorization header required' });
@@ -60,139 +44,101 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         break;
 
       case 'POST':
-        const { type, code, email } = req.body;
+        const { email, password } = req.body;
 
-        if (type === 'google') {
-          // Exchange code for access token
-          const tokenResponse = await OAuthService.exchangeGoogleCode(code);
-          if (tokenResponse.error) {
-            throw new Error(`Google OAuth error: ${tokenResponse.error_description}`);
-          }
-
-          // Get user info from Google
-          const userInfo = await OAuthService.getGoogleUserInfo(tokenResponse.access_token);
-          
-          // Check if user exists
-          let user = await DatabaseService.getUserByProvider('google', userInfo.id);
-          
-          if (!user) {
-            // Check if user exists with same email but different provider
-            const existingUser = await DatabaseService.getUserByEmail(userInfo.email);
-            if (existingUser) {
-              throw new Error('An account with this email already exists with a different login method');
-            }
-
-            // Create new user
-            user = await DatabaseService.createUser({
-              email: userInfo.email,
-              name: userInfo.name,
-              image_url: userInfo.picture,
-              provider: 'google',
-              provider_id: userInfo.id,
-            });
-          }
-
-          // Generate JWT token
-          const token = AuthService.generateToken(user);
-
-          res.status(200).json({
-            user: {
-              id: user.id,
-              email: user.email,
-              name: user.name,
-              image_url: user.image_url,
-              is_admin: user.is_admin,
-            },
-            token,
-          });
-
-        } else if (type === 'facebook') {
-          // Exchange code for access token
-          const tokenResponse = await OAuthService.exchangeFacebookCode(code);
-          if (tokenResponse.error) {
-            throw new Error(`Facebook OAuth error: ${tokenResponse.error.message}`);
-          }
-
-          // Get user info from Facebook
-          const userInfo = await OAuthService.getFacebookUserInfo(tokenResponse.access_token);
-          
-          // Check if user exists
-          let user = await DatabaseService.getUserByProvider('facebook', userInfo.id);
-          
-          if (!user) {
-            // Check if user exists with same email but different provider
-            const existingUser = await DatabaseService.getUserByEmail(userInfo.email);
-            if (existingUser) {
-              throw new Error('An account with this email already exists with a different login method');
-            }
-
-            // Create new user
-            user = await DatabaseService.createUser({
-              email: userInfo.email,
-              name: userInfo.name,
-              image_url: userInfo.picture?.data?.url,
-              provider: 'facebook',
-              provider_id: userInfo.id,
-            });
-          }
-
-          // Generate JWT token
-          const token = AuthService.generateToken(user);
-
-          res.status(200).json({
-            user: {
-              id: user.id,
-              email: user.email,
-              name: user.name,
-              image_url: user.image_url,
-              is_admin: user.is_admin,
-            },
-            token,
-          });
-
-        } else if (type === 'admin') {
-          const { password } = req.body;
-          
-          if (!email || !password) {
-            throw new Error('Email and password are required for admin login');
-          }
-
-          const user = await DatabaseService.getUserByEmail(email);
-          if (!user || !user.is_admin || !user.password_hash) {
-            throw new Error('Invalid admin credentials');
-          }
-
-          // Verify password
-          const isValidPassword = await AuthService.comparePassword(password, user.password_hash);
-          if (!isValidPassword) {
-            throw new Error('Invalid admin credentials');
-          }
-
-          const token = AuthService.generateToken(user);
-
-          res.status(200).json({
-            user: {
-              id: user.id,
-              email: user.email,
-              name: user.name,
-              image_url: user.image_url,
-              is_admin: user.is_admin,
-            },
-            token,
-          });
-        } else {
-          res.status(400).json({ error: 'Invalid auth type' });
+        if (!email || !password) {
+          return res.status(400).json({ error: 'Email and password are required' });
         }
+
+        // Admin login only
+        const adminUser = await DatabaseService.getUserByEmail(email);
+        if (!adminUser || !adminUser.is_admin) {
+          return res.status(401).json({ error: 'Invalid admin credentials' });
+        }
+
+        // For admin users, verify password
+        if (adminUser.password_hash) {
+          const isValidPassword = await AuthService.comparePassword(password, adminUser.password_hash);
+          if (!isValidPassword) {
+            return res.status(401).json({ error: 'Invalid admin credentials' });
+          }
+        } else {
+          return res.status(401).json({ error: 'Admin password not set' });
+        }
+
+        // Generate JWT token
+        const authToken = AuthService.generateToken(adminUser);
+
+        res.status(200).json({
+          user: {
+            id: adminUser.id,
+            email: adminUser.email,
+            name: adminUser.name,
+            image_url: adminUser.image_url,
+            is_admin: adminUser.is_admin,
+          },
+          token: authToken,
+        });
+        break;
+
+      case 'PATCH':
+        // Change admin password - need to verify token first
+        const patchAuthHeader = req.headers.authorization;
+        if (!patchAuthHeader) {
+          return res.status(401).json({ error: 'Authorization header required' });
+        }
+
+        const patchToken = patchAuthHeader.replace('Bearer ', '');
+        const patchPayload = AuthService.verifyToken(patchToken);
+        
+        if (!patchPayload) {
+          return res.status(401).json({ error: 'Invalid token' });
+        }
+
+        const { currentPassword, newPassword } = req.body;
+
+        if (!currentPassword || !newPassword) {
+          return res.status(400).json({ error: 'Current password and new password are required' });
+        }
+
+        if (newPassword.length < 8) {
+          return res.status(400).json({ error: 'New password must be at least 8 characters long' });
+        }
+
+        // Get the current user
+        const currentUser = await DatabaseService.getUserByEmail(patchPayload.email);
+        if (!currentUser || !currentUser.is_admin) {
+          return res.status(401).json({ error: 'Admin user not found' });
+        }
+
+        // Verify current password
+        if (currentUser.password_hash) {
+          const isCurrentPasswordValid = await AuthService.comparePassword(currentPassword, currentUser.password_hash);
+          if (!isCurrentPasswordValid) {
+            return res.status(401).json({ error: 'Current password is incorrect' });
+          }
+        } else {
+          return res.status(401).json({ error: 'No password set for admin user' });
+        }
+
+        // Hash the new password
+        const newPasswordHash = await AuthService.hashPassword(newPassword);
+
+        // Update password in database
+        await DatabaseService.updateUserPassword(currentUser.id, newPasswordHash);
+
+        res.status(200).json({ message: 'Password updated successfully' });
         break;
 
       default:
-        res.setHeader('Allow', ['GET', 'POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
+        res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'OPTIONS']);
+        res.status(405).json({ error: `Method ${req.method} not allowed` });
     }
   } catch (error) {
     console.error('Auth API error:', error);
     res.status(500).json({ 
-      error: error instanceof Error ? error.message : 'Internal server error' 
+      error: 'Internal server error',
+      message: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 }

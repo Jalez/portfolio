@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { DatabaseService } from '../../lib/database';
-import { AuthService } from '../../lib/auth';
+import { DatabaseService } from '../../lib/database.js';
+import { AuthService } from '../../lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
@@ -25,7 +25,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const token = authHeader.replace('Bearer ', '');
   const payload = AuthService.verifyToken(token);
   
-  if (!payload || !payload.isAdmin) {
+  if (!payload || !payload.is_admin) {
     return res.status(403).json({ error: 'Admin access required' });
   }
 

@@ -100,7 +100,6 @@ const TestimonialSubmission: React.FC = () => {
                 </p>
               </div>
 
-              <div className="max-w-2xl mx-auto p-8 bg-theme-card rounded-lg shadow-lg">
                 {error && (
                   <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
                     {error}
@@ -175,7 +174,7 @@ const TestimonialSubmission: React.FC = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-theme text-white py-4 px-6 rounded-lg hover:bg-theme-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme disabled:opacity-50 transition-colors font-semibold text-lg"
+                    className="w-full bg-theme text-theme-primary py-4 px-6 rounded-lg hover:bg-theme-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme disabled:opacity-50 transition-colors font-semibold text-lg"
                   >
                     {loading ? 'Submitting...' : 'Submit Testimonial'}
                   </button>
@@ -184,7 +183,6 @@ const TestimonialSubmission: React.FC = () => {
                     All testimonials are reviewed before being published
                   </p>
                 </form>
-              </div>
             </>
           )}
         </div>

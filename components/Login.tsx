@@ -36,7 +36,7 @@ const LoginPage: React.FC = () => {
           <h2 className="text-2xl font-bold text-theme-primary mb-4">You are already logged in!</h2>
           <button
             onClick={() => window.location.href = '/'}
-            className="bg-theme text-white px-6 py-2 rounded-lg hover:bg-theme-hover transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors shadow-lg"
           >
             Go to Home
           </button>
@@ -67,19 +67,19 @@ const LoginPage: React.FC = () => {
               placeholder="Admin email"
               value={adminEmail}
               onChange={(e) => setAdminEmail(e.target.value)}
-              className="w-full px-3 py-2 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
+              className="w-full px-3 py-2 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
               type="password"
               placeholder="Admin password"
               value={adminPassword}
               onChange={(e) => setAdminPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
+              className="w-full px-3 py-2 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               onClick={handleAdminLogin}
               disabled={loading || !adminEmail || !adminPassword}
-              className="w-full px-4 py-3 border border-transparent rounded-md shadow-sm text-white bg-theme hover:bg-theme-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme disabled:opacity-50 transition-colors"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
             >
               {loading ? 'Signing in...' : 'Admin Login'}
             </button>

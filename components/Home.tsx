@@ -90,7 +90,7 @@ const Home: React.FC = () => {
                   <img 
                     src="/profilepic.png" 
                     alt="Jaakko Rajala" 
-                    className="w-64 h-64 sm:w-80 sm:h-80 rounded-full mx-auto lg:mx-0 shadow-2xl border-4 border-theme object-cover"
+                    className="profile-pic-theme w-64 h-64 sm:w-80 sm:h-80 rounded-full mx-auto lg:mx-0 shadow-2xl border-4 border-theme object-cover"
                   />
                   <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent to-white/10"></div>
                 </div>

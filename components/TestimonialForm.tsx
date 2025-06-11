@@ -64,7 +64,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
           </p>
           <button
             onClick={() => setSuccess(false)}
-            className="bg-theme text-white px-6 py-2 rounded-lg hover:bg-theme-hover transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors shadow-lg"
           >
             Submit Another Testimonial
           </button>
@@ -152,7 +152,7 @@ const TestimonialForm: React.FC<TestimonialFormProps> = ({ onSubmit }) => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-theme text-white py-3 px-4 rounded-lg hover:bg-theme-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme disabled:opacity-50 transition-colors"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
         >
           {loading ? 'Submitting...' : 'Submit Testimonial'}
         </button>

@@ -4,6 +4,7 @@ import { fetchUserProjects } from '../data';
 import Carousel from './Carousel';
 import Card from './Card';
 import { useScrollFade } from '../hooks/useScrollFade';
+import PageHeading from './PageHeading';
 
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
   <Card>
@@ -34,7 +35,11 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
         {project.forks_count !== undefined && (
           <span className="flex items-center" title="Forks">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 mr-2 text-theme-secondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 8c0-2.209-1.791-4-4-4s-4 1.791-4 4v2H8l-1.5 9h11L16 10h-2V8zM6 10h.01M18 10h-.01"></path> <path d="M12 10V4m0 6v6m-4-2h8"></path>
+              <circle cx="12" cy="18" r="3"/>
+              <circle cx="6" cy="6" r="3"/>
+              <circle cx="18" cy="6" r="3"/>
+              <path d="m18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/>
+              <path d="M12 12v3"/>
             </svg>
            {project.forks_count}
           </span>
@@ -58,6 +63,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
 const Projects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isInView, setIsInView] = useState(false);
   const scrollFade = useScrollFade();
 
   useEffect(() => {
@@ -72,6 +78,31 @@ const Projects: React.FC = () => {
     loadProjects();
      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty dependency array means this effect runs once on mount
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const isVisible = entry.isIntersecting && entry.intersectionRatio > 0.2;
+          setIsInView(isVisible);
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px'
+      }
+    );
+
+    if (scrollFade.ref.current) {
+      observer.observe(scrollFade.ref.current);
+    }
+
+    return () => {
+      if (scrollFade.ref.current) {
+        observer.unobserve(scrollFade.ref.current);
+      }
+    };
+  }, [scrollFade.ref]);
 
   if (loading) {
     return (
@@ -104,7 +135,12 @@ const Projects: React.FC = () => {
       style={scrollFade.style}
     >
       <div className="container mx-auto px-4 sm:px-6 flex flex-col flex-1 py-6 sm:py-8">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-center mb-6 sm:mb-8 lg:mb-12 text-theme-primary flex-shrink-0">Featured Projects</h2>
+        <PageHeading
+          title="Featured Projects"
+          subtitle="Displaying last 3 public projects I've updated in GitHub"
+          isVisible={isInView}
+          className="mb-6 sm:mb-8 lg:mb-12"
+        />
         
         <div className="flex-1 px-2 sm:px-4 lg:px-8">
           <Carousel>{projectCards}</Carousel>

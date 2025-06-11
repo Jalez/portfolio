@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* Basic CSS reset and utilities */
 * {
@@ -169,4 +167,8 @@ body {
 /* Hover animation class */
 .hover-border-animation:hover {
   --hover-animation: hoverGlow 2s linear infinite;
+}
+
+button {
+  cursor: pointer;
 }

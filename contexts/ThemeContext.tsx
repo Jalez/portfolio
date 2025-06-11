@@ -18,20 +18,24 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('dark');
-
-  useEffect(() => {
-    // Check for saved theme preference or default to 'dark'
+  // Initialize with the theme that's already set on the document to prevent flash
+  const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem('theme') as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    }
-  }, []);
+    return savedTheme || 'dark';
+  });
 
   useEffect(() => {
-    // Save theme preference and apply to document
+    // Only update if the theme has actually changed
+    const currentTheme = document.documentElement.getAttribute('data-theme') as Theme;
+    if (currentTheme !== theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
     localStorage.setItem('theme', theme);
-    document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {

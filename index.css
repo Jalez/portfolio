@@ -9,6 +9,8 @@
 
 html {
   overflow: hidden;
+  /* Set default background to prevent any flash */
+  background-color: #000000;
 }
 
 body {
@@ -16,6 +18,8 @@ body {
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
+  /* Set default background to prevent any flash */
+  background-color: #000000;
 }
 
 /* Theme-aware styles */
@@ -25,6 +29,7 @@ body {
   --text-primary: #ffffff;
   --text-secondary: #cccccc;
   --border-color: #333333;
+  background-color: #000000 !important;
 }
 
 [data-theme="light"] {
@@ -33,6 +38,17 @@ body {
   --text-primary: #1a1a1a;
   --text-secondary: #4a5568;
   --border-color: #e5e5e5;
+  background-color: #ffffff !important;
+}
+
+/* Override body background for light theme */
+[data-theme="light"] body {
+  background-color: #ffffff !important;
+}
+
+/* Override body background for dark theme */
+[data-theme="dark"] body {
+  background-color: #000000 !important;
 }
 
 /* Scrollbar hiding utility */

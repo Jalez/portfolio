@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
-
+import { Analytics } from "@vercel/analytics/react";
 import Footer from './components/Footer';
 import LoginPage from './components/routes/Login';
 import AdminDashboard from './components/routes/Admin';
@@ -39,13 +39,12 @@ const App: React.FC = () => {
   }, []);
 
   return (
+    <>
+      <Analytics />
     <ThemeProvider>
       <AuthProvider>
         <Router
-          future={{
-            v7_startTransition: true,
-            v7_relativeSplatPath: true
-          }}
+      
         >
           <div className="h-screen overflow-y-scroll snap-y snap-mandatory bg-theme-background">
             <Routes>
@@ -64,6 +63,7 @@ const App: React.FC = () => {
         </Router>
       </AuthProvider>
     </ThemeProvider>
+    </>
   );
 };
 

@@ -1,6 +1,5 @@
 import React from 'react';
-import Card from '../Card';
-import { useScrollFade } from '../../hooks/useScrollFade';
+import Section from '../reusables/Section';
 
 // Simple SVG Icons for social media (can be moved to constants.tsx if preferred for central management)
 const MailIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
@@ -21,61 +20,46 @@ const GitHubIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-
 const Contact: React.FC = () => {
-  const scrollFade = useScrollFade();
-
   return (
-    <section 
-      id="contact" 
-      ref={scrollFade.ref}
-      className="snap-start min-h-screen flex flex-col pt-20"
-      style={scrollFade.style}
+    <Section
+      id="contact"
+      title="Get In Touch"
+      subtitle="Always open to discuss new projects, exchange ideas and amazing opportunities. Feel free to reach out!"
     >
-      <div className="container mx-auto px-6 flex flex-col flex-1 py-4 sm:py-6">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-4 sm:mb-6 text-theme-primary flex-shrink-0">Get In Touch</h2>
-        <div className="flex-1 flex items-center justify-center">
-          <div className="max-w-2xl w-full">
-            <Card variant="centered" padding="lg" hoverScale={false} animatedBorder={false} className="animate-fade-in-up">
-              <p className="text-xl text-theme-secondary mb-8 leading-relaxed">
-                Always open to discuss new projects, exchange ideas and amazing opportunities. Feel free to reach out!
-              </p>
-              
-              <div className="space-y-6 mb-10">
-                <a 
-                  href="mailto:jaakko.rajala@tuni.fi"
-                  className="inline-flex items-center justify-center space-x-3 text-lg text-theme-primary hover:text-theme-secondary transition-colors duration-300 group"
-                >
-                  <MailIcon className="w-7 h-7 text-theme-primary group-hover:scale-110 transition-transform" />
-                  <span className="border-b border-transparent group-hover:border-theme-primary transition-colors">jaakko.rajala@tuni.fi</span>
-                </a>
-              </div>
-
-              <div className="flex justify-center space-x-6">
-                <a 
-                  href="https://www.linkedin.com/in/jaakko-rajala-b531b8208/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-theme-secondary hover:text-theme-primary transition-all duration-300 transform hover:scale-110"
-                  aria-label="LinkedIn Profile"
-                >
-                  <LinkedInIcon className="w-10 h-10" />
-                </a>
-                <a 
-                  href="https://github.com/Jalez" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-theme-secondary hover:text-theme-primary transition-all duration-300 transform hover:scale-110"
-                  aria-label="GitHub Profile"
-                >
-                  <GitHubIcon className="w-10 h-10" />
-                </a>
-              </div>
-            </Card>
-          </div>
+      <div className="flex justify-center items-center min-h-0">
+        <div className="max-w-2xl w-full">
+   
+            <div className="flex justify-center space-x-6">
+              <a 
+                href="mailto:jaakko.rajala@tuni.fi"
+                className="inline-flex items-center justify-center space-x-3 text-lg text-theme-primary hover:text-theme-secondary transition-colors duration-300 group"
+              >
+                <MailIcon className="w-7 h-7 text-theme-primary group-hover:scale-110 transition-transform" />
+                <span className="border-b border-transparent group-hover:border-theme-primary transition-colors">jaakko.rajala@tuni.fi</span>
+              </a>
+              <a 
+                href="https://www.linkedin.com/in/jaakko-rajala-b531b8208/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-theme-secondary hover:text-theme-primary transition-all duration-300 transform hover:scale-110"
+                aria-label="LinkedIn Profile"
+              >
+                <LinkedInIcon className="w-10 h-10" />
+              </a>
+              <a 
+                href="https://github.com/Jalez" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-theme-secondary hover:text-theme-primary transition-all duration-300 transform hover:scale-110"
+                aria-label="GitHub Profile"
+              >
+                <GitHubIcon className="w-10 h-10" />
+              </a>
+            </div>
         </div>
       </div>
-    </section>
+    </Section>
   );
 };
 

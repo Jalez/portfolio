@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Skill } from '../../types';
 import { MOCK_SKILLS } from '../../data';
-import PageHeading from '../PageHeading';
+import PageHeading from '../reusables/PageHeading';
 
 const SkillCard: React.FC<{ skill: Skill; isVisible: boolean; delay: number }> = ({ skill, isVisible, delay }) => {
   return (
@@ -41,12 +41,12 @@ const Skills: React.FC = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const isVisible = entry.isIntersecting && entry.intersectionRatio > 0.2;
+          const isVisible = entry.isIntersecting && entry.intersectionRatio > 0.1;
           setIsInView(isVisible);
         });
       },
       {
-        threshold: 0.2,
+        threshold: 0.1,
         rootMargin: '0px'
       }
     );

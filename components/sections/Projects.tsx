@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Project } from '../../types';
 import { fetchUserProjects } from '../../data';
-import Carousel from '../Carousel';
-import Card from '../Card';
-import PageHeading from '../PageHeading';
+import Carousel from '../reusables/Carousel';
+import Card from '../reusables/Card';
+import Section from '../reusables/Section';
 
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
-  <Card>
+  <Card className="h-full">
+    <div>
+
     <h3 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-semibold mb-3 sm:mb-4 text-theme-primary group-hover:text-theme-primary transition-colors leading-tight">{project.name}</h3>
     <p className="text-theme-secondary text-sm sm:text-base lg:text-lg mb-4 sm:mb-6 flex-grow leading-relaxed line-clamp-4">{project.description}</p>
     
@@ -56,14 +58,14 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
         </svg>
       </a>
     </div>
+        </div>
+
   </Card>
 );
 
 const Projects: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [isInView, setIsInView] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const loadProjects = async () => {
@@ -73,77 +75,23 @@ const Projects: React.FC = () => {
       setProjects(fetchedProjects);
       setLoading(false);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     loadProjects();
-     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Empty dependency array means this effect runs once on mount
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const isVisible = entry.isIntersecting && entry.intersectionRatio > 0.2;
-          setIsInView(isVisible);
-        });
-      },
-      {
-        threshold: 0.2,
-        rootMargin: '0px'
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
   }, []);
-
-  if (loading) {
-    return (
-      <section 
-        id="projects" 
-        ref={sectionRef}
-        className="snap-start min-h-screen flex flex-col pt-20"
-      >
-        <div className="container mx-auto px-4 sm:px-6 flex flex-col flex-1 py-4 sm:py-6 min-h-0">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-4 sm:mb-6 text-theme-primary flex-shrink-0">Featured Projects</h2>
-          <div className="flex-1 flex justify-center items-center min-h-0">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-theme-primary"></div>
-            <p className="text-theme-secondary text-lg ml-4">Loading projects...</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   const projectCards = projects.map((project) => (
     <ProjectCard key={project.id} project={project} />
   ));
 
   return (
-    <section 
-      id="projects" 
-      ref={sectionRef}
-      className="snap-start min-h-screen flex flex-col pt-20"
+    <Section
+      id="projects"
+      title="Featured Projects"
+      subtitle="Displaying last 3 public projects I've updated in GitHub"
+      loading={loading}
+      loadingText="Loading projects..."
     >
-      <div className="container mx-auto px-4 sm:px-6 flex flex-col flex-1 py-4 sm:py-6 lg:py-8 min-h-0">
-        <PageHeading
-          title="Featured Projects"
-          subtitle="Displaying last 3 public projects I've updated in GitHub"
-          isVisible={isInView}
-          className="mb-4 sm:mb-6 lg:mb-8 flex-shrink-0"
-        />
-        
-        <div className="flex-1 px-2 sm:px-4 lg:px-8 min-h-0">
-          <Carousel>{projectCards}</Carousel>
-        </div>
-      </div>
-    </section>
+        <Carousel>{projectCards}</Carousel>
+    </Section>
   );
 };
 

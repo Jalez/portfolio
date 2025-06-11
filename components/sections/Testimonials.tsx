@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Testimonial } from '../../types';
 import { TestimonialAPI } from '../../api/testimonials/index';
 import { DatabaseTestimonial } from '../../lib/database';
-import Carousel from '../Carousel';
-import Card from '../Card';
-import { useScrollFade } from '../../hooks/useScrollFade';
+import Carousel from '../reusables/Carousel';
+import Card from '../reusables/Card';
+import Section from '../reusables/Section';
 
 const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }) => (
   <Card variant="centered" padding="lg">
@@ -24,7 +24,6 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }
 );
 
 const Testimonials: React.FC = () => {
-  const scrollFade = useScrollFade();
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -67,49 +66,52 @@ const Testimonials: React.FC = () => {
     </div>
   ));
 
-  return (
-    <section 
-      id="testimonials" 
-      ref={scrollFade.ref}
-      className="snap-start min-h-screen flex flex-col pt-20"
-      style={scrollFade.style}
-    >
-      <div className="container mx-auto px-6 flex flex-col flex-1 py-4 sm:py-6">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-4 sm:mb-6 text-theme-primary flex-shrink-0">What Others Say</h2>
-        
-        {/* Loading State */}
-        {loading && (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-theme"></div>
-          </div>
-        )}
+  if (loading) {
+    return (
+      <Section
+        id="testimonials"
+        title="What Others Say"
+        loading={true}
+        loadingText="Loading testimonials..."
+      >
+        <div />
+      </Section>
+    );
+  }
 
-        {/* Testimonials Carousel - only show if we have testimonials */}
-        {!loading && testimonials.length > 0 && (
-          <div className="flex-1 p-6">
-            <Carousel>{testimonialCards}</Carousel>
-          </div>
-        )}
-
-        {/* No testimonials state - shown for both empty and error states */}
-        {!loading && testimonials.length === 0 && (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-theme-card rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.013 8.013 0 01-7-4c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-theme-primary mb-2">No testimonials to display currently</h3>
-              <p className="text-theme-secondary">
-                {error ? "We're having trouble loading testimonials right now. Please try again later." : 
-                "Check back later for testimonials from clients and collaborators."}
-              </p>
+  if (testimonials.length === 0) {
+    return (
+      <Section
+        id="testimonials"
+        title="What Others Say"
+      >
+        <div className="flex items-center justify-center min-h-0">
+          <div className="text-center">
+            <div className="w-16 h-16 mx-auto mb-4 bg-theme-card rounded-full flex items-center justify-center">
+              <svg className="w-8 h-8 text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.013 8.013 0 01-7-4c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
+              </svg>
             </div>
+            <h3 className="text-xl font-semibold text-theme-primary mb-2">No testimonials to display currently</h3>
+            <p className="text-theme-secondary">
+              {error ? "We're having trouble loading testimonials right now. Please try again later." : 
+              "Check back later for testimonials from clients and collaborators."}
+            </p>
           </div>
-        )}
+        </div>
+      </Section>
+    );
+  }
+
+  return (
+    <Section
+      id="testimonials"
+      title="What Others Say"
+    >
+      <div className="p-6">
+        <Carousel>{testimonialCards}</Carousel>
       </div>
-    </section>
+    </Section>
   );
 };
 

@@ -3,21 +3,41 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
-import Home from './components/Home';
 
 import Footer from './components/Footer';
-import LoginPage from './components/Login';
-import AdminDashboard from './components/AdminDashboard';
-
-
-
-// Admin Route component
-const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // This will be handled by the AdminDashboard component itself
-  return <>{children}</>;
-};
+import LoginPage from './components/routes/Login';
+import AdminDashboard from './components/routes/Admin';
+import Sections from './components/sections';
 
 const App: React.FC = () => {
+  // Handle initial scroll position on mount
+  React.useEffect(() => {
+    const scrollToHashSection = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const sectionId = hash.substring(1);
+        const targetElement = document.getElementById(sectionId);
+        if (targetElement) {
+          const scrollContainer = document.querySelector('.h-screen.overflow-y-scroll') as HTMLElement;
+          if (scrollContainer) {
+            const headerHeight = 80;
+            const offsetTop = targetElement.offsetTop - headerHeight;
+            // Use setTimeout to ensure DOM is fully rendered
+            setTimeout(() => {
+              scrollContainer.scrollTo({
+                top: offsetTop,
+                behavior: 'instant' // Use instant for initial load to prevent flash
+              });
+            }, 50);
+          }
+        }
+      }
+    };
+
+    // Run after component mounts and DOM is ready
+    scrollToHashSection();
+  }, []);
+
   return (
     <ThemeProvider>
       <AuthProvider>
@@ -27,20 +47,12 @@ const App: React.FC = () => {
               <Route path="/" element={
                 <>
                   <Header />
-                  <Home />
+                  <Sections />
                   <Footer />
                 </>
               } />
               <Route path="/login" element={<LoginPage />} />
-              <Route 
-                path="/admin" 
-                element={
-                  <AdminRoute>
-                    <AdminDashboard />
-                  </AdminRoute>
-                } 
-              />
-              {/* Catch all route - redirect to home */}
+              <Route path="/admin" element={ <AdminDashboard />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>

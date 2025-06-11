@@ -14,7 +14,7 @@ const SkillCard: React.FC<{ skill: Skill; isVisible: boolean; delay: number }> =
       title={skill.name}
     >
       <div className="text-white flex items-center justify-center w-10 h-10 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-14 lg:h-14 xl:w-14 xl:h-14 rounded-full bg-gray-800 border border-gray-600 hover:border-white/50 transition-colors duration-300">
-        {skill.icon ? React.cloneElement(skill.icon, { 
+        {skill.icon ? React.cloneElement(skill.icon as React.ReactElement<any>, { 
           className: "w-4 h-4 sm:w-4 sm:h-4 md:w-7 md:h-7 lg:w-6 lg:h-6 xl:w-7 xl:h-7 text-white",
           style: { minWidth: '1rem', minHeight: '1rem' }
         }) : (

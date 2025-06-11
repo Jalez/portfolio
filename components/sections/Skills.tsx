@@ -15,7 +15,7 @@ const SkillCard: React.FC<{ skill: Skill; isVisible: boolean; delay: number }> =
     >
       <div className="text-white flex items-center justify-center w-10 h-10 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-14 lg:h-14 xl:w-14 xl:h-14 rounded-full bg-gray-800 border border-gray-600 hover:border-white/50 transition-colors duration-300">
         {skill.icon ? React.cloneElement(skill.icon, { 
-          className: "w-4 h-4 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7 text-white",
+          className: "w-4 h-4 sm:w-4 sm:h-4 md:w-7 md:h-7 lg:w-6 lg:h-6 xl:w-7 xl:h-7 text-white",
           style: { minWidth: '1rem', minHeight: '1rem' }
         }) : (
           <div className="w-full h-full bg-white/20 rounded-full flex items-center justify-center text-white text-xs font-bold">
@@ -75,7 +75,7 @@ const Skills: React.FC = () => {
       ref={sectionRef}
       className="snap-start min-h-screen flex flex-col pt-20"
     >
-      <div className="container mx-auto px-4 sm:px-2 flex flex-col flex-1 py-4 sm:py-2 max-w-7xl">
+      <div className="container mx-auto px-4 sm:px-1 flex flex-col flex-1 py-4 sm:py-1 max-w-7xl">
         <PageHeading
           title="My Skills"
           subtitle="That's what I do, I drink and I know things."
@@ -83,8 +83,8 @@ const Skills: React.FC = () => {
           isVisible={isInView}
         />
         
-        {/* Mobile View - Compact Grid */}
-        <div className="flex-1 flex flex-col gap-2 sm:gap-2 md:hidden">
+        {/* Mobile View - Compact Flex */}
+        <div className="flex-1 flex flex-col gap-1 sm:gap-1 md:hidden">
           {skillCategories.map((category, catIndex) => {
             const categorySkills = MOCK_SKILLS.filter(skill => skill.category === category);
             if (categorySkills.length === 0) return null;
@@ -97,7 +97,7 @@ const Skills: React.FC = () => {
                 }}
               >
                 <h3 className="text-sm sm:text-base font-semibold text-theme-primary mb-1 sm:mb-1 text-center">{category}</h3>
-                <div className="grid grid-cols-8 gap-x-1 gap-y-1 sm:gap-x-0 sm:gap-y-1 justify-items-center">
+                <div className="flex flex-wrap gap-1 justify-start items-center">
                   {categorySkills.map((skill, index) => (
                     <SkillCard 
                       key={skill.id} 
@@ -128,7 +128,7 @@ const Skills: React.FC = () => {
                   }}
                 >
                   <h3 className="text-base font-semibold text-theme-primary mb-3 text-center">{category}</h3>
-                  <div className="grid grid-cols-4 md:grid-cols-7 lg:grid-cols-7 gap-1 justify-items-center">
+                  <div className="flex flex-wrap gap-1 justify-start items-center">
                     {categorySkills.map((skill, index) => (
                       <SkillCard 
                         key={skill.id} 
@@ -157,7 +157,7 @@ const Skills: React.FC = () => {
                   }}
                 >
                   <h3 className="text-base font-semibold text-theme-primary mb-3 text-center">{category}</h3>
-                  <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 justify-items-center">
+                  <div className="flex flex-wrap gap-2 justify-start items-center">
                     {categorySkills.map((skill, index) => (
                       <SkillCard 
                         key={skill.id} 
@@ -188,7 +188,7 @@ const Skills: React.FC = () => {
                 }}
               >
                 <h3 className="text-lg xl:text-xl font-semibold text-theme-primary mb-4 xl:mb-6 text-center">{category}</h3>
-                <div className="grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 xl:gap-3 justify-items-center">
+                <div className="flex flex-wrap gap-2 xl:gap-3 justify-start items-center">
                   {categorySkills.map((skill, index) => (
                     <SkillCard 
                       key={skill.id} 

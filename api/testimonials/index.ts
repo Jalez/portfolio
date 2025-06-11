@@ -17,10 +17,19 @@ export class TestimonialAPI {
   static async getApprovedTestimonials(): Promise<DatabaseTestimonial[]> {
     try {
       const response = await axios.get(`${API_BASE_URL}/api/testimonials`);
-      return response.data;
+      
+      // Ensure we always return an array
+      const data = response.data;
+      if (!Array.isArray(data)) {
+        console.warn('API returned non-array data, returning empty array');
+        return [];
+      }
+      
+      return data;
     } catch (error) {
       console.error('Error fetching approved testimonials:', error);
-      throw new Error('Failed to fetch testimonials');
+      // Return empty array instead of throwing error to prevent UI crash
+      return [];
     }
   }
 
@@ -51,7 +60,15 @@ export class TestimonialAPI {
           'Authorization': `Bearer ${authToken}`,
         },
       });
-      return response.data;
+      
+      // Ensure we always return an array
+      const data = response.data;
+      if (!Array.isArray(data)) {
+        console.warn('Admin API returned non-array data, returning empty array');
+        return [];
+      }
+      
+      return data;
     } catch (error) {
       console.error('Error fetching all testimonials:', error);
       throw new Error('Failed to fetch testimonials');

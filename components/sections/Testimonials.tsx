@@ -37,6 +37,15 @@ const Testimonials: React.FC = () => {
       setLoading(true);
       setError(''); // Clear previous errors
       const data = await TestimonialAPI.getApprovedTestimonials();
+      
+      // Validate that data is an array before calling map
+      if (!Array.isArray(data)) {
+        console.error('API returned non-array data:', data);
+        setError('Invalid data format received from server');
+        setTestimonials([]);
+        return;
+      }
+      
       // Transform database testimonials to match the Testimonial interface
       const transformedTestimonials: Testimonial[] = data.map((testimonial: DatabaseTestimonial) => ({
         id: testimonial.id,

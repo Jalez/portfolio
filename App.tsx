@@ -41,7 +41,12 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <Router>
+        <Router
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true
+          }}
+        >
           <div className="h-screen overflow-y-scroll snap-y snap-mandatory bg-theme-background">
             <Routes>
               <Route path="/" element={

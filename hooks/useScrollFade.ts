@@ -3,11 +3,27 @@ import { useEffect, useState, useRef } from 'react';
 interface UseScrollFadeOptions {
   threshold?: number;
   rootMargin?: string;
+  initiallyVisible?: boolean; // Add option to control initial visibility
 }
 
 export const useScrollFade = (options: UseScrollFadeOptions = {}) => {
-  const [isVisible, setIsVisible] = useState(true);
-  const [opacity, setOpacity] = useState(1);
+  // Check if we should be initially visible based on URL hash
+  const getInitialVisibility = () => {
+    if (options.initiallyVisible !== undefined) {
+      return options.initiallyVisible;
+    }
+    // If there's a hash in the URL and it's not pointing to hero, start hidden
+    const hash = window.location.hash;
+    if (hash && hash !== '#hero' && hash !== '#') {
+      return false;
+    }
+    // Default to visible for hero section or no hash
+    return true;
+  };
+
+  // Start with appropriate initial state based on whether this is expected to be initially visible
+  const [isVisible, setIsVisible] = useState(getInitialVisibility());
+  const [opacity, setOpacity] = useState(getInitialVisibility() ? 1 : 0);
   const elementRef = useRef<HTMLElement>(null);
 
   useEffect(() => {

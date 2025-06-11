@@ -39,7 +39,7 @@ const Card: React.FC<CardProps> = ({
         <div className="absolute inset-0 rounded-xl transition-all duration-300 group-hover:opacity-100 opacity-0"
              style={{
                background: `
-                 linear-gradient(var(--angle, 0deg), #ffffff, #cccccc, #999999, #666666, #333333, #000000) border-box
+                 linear-gradient(var(--angle, 0deg), #ffffff, #cccccc, #999999, #666666, #333333, #000000 ) border-box
                `,
                animation: 'var(--hover-animation, none)',
                padding: '8px'
@@ -48,7 +48,7 @@ const Card: React.FC<CardProps> = ({
       )}
       
       {/* Card content */}
-      <div className={`relative bg-theme-secondary ${animatedBorder ? 'm-0.5' : ''} ${paddingClasses[padding]} rounded-lg shadow-xl flex flex-col h-full border border-theme group-hover:border-transparent transition-all duration-300 overflow-hidden ${variantClasses[variant]} min-h-0
+      <div className={`relative bg-theme-secondary ${animatedBorder ? 'm-0.5' : ''} ${paddingClasses[padding]} rounded-lg flex flex-col h-full border border-theme group-hover:border-transparent transition-all duration-300 overflow-hidden ${variantClasses[variant]} min-h-0
     
       `}>
           {children}

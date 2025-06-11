@@ -83,7 +83,6 @@ NODE_ENV="production"
 
 #### **Default Credentials:**
 - **Email:** `jaakko.rajala@tuni.fi`
-- **Password:** `AdminPass2025!`
 
 #### **⚠️ IMPORTANT SECURITY STEPS:**
 
@@ -101,10 +100,9 @@ NODE_ENV="production"
 #### **Admin Login Process:**
 1. Go to `/login`
 2. Scroll to "Admin Access" section
-3. Enter email: `jaakko.rajala@tuni.fi`
-4. Enter password: `AdminPass2025!` (or your custom password)
-5. Click "Admin Login"
-6. You'll be redirected to `/admin`
+3. Enter email: `jaakko.rajala@tuni.fi` and default password
+4. Click "Admin Login"
+5. You'll be redirected to `/admin`
 
 #### **Admin Capabilities:**
 - View all testimonials (approved and pending)
@@ -193,7 +191,6 @@ node generate-admin-hash.js
 - **Database errors:** Verify all environment variables are set
 - **Admin access denied:** 
   - Ensure your email is in the database as admin
-  - Verify you're using the correct password (`AdminPass2025!` by default)
   - Check that password_hash is properly set in database
 - **API errors:** Check Vercel function logs in dashboard
 - **Password issues:** Use `generate-admin-hash.js` to create new password hash

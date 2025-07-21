@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Card from '../reusables/Card';
 import { useScrollFade } from '../../hooks/useScrollFade';
+import GradientBackground from '../reusables/GradientBackground';
 
 // @ts-ignore
 import Typewriter from 'typewriter-effect/dist/core';
@@ -79,17 +80,22 @@ const Hero: React.FC = () => {
             ref={typewriterRef}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-4 sm:mb-6 text-theme-secondary leading-tight text-center min-h-[1.2em]"
           />
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-5 lg:gap-12 items-center">
             {/* Profile Image */}
-            <div className="text-center lg:text-left">
-              <div className="relative inline-block">
-                <img 
-                  src="/profilepic.png" 
-                  alt="Jaakko Rajala" 
-                  className="profile-pic-theme w-64 h-64 sm:w-80 sm:h-80 rounded-full mx-auto lg:mx-0 shadow-2xl border-4 border-theme object-cover"
-                />
+            <div className="text-center lg:text-center flex justify-center">
+              <GradientBackground 
+                variant="profile" 
+                size="lg" 
+                className="relative inline-block mx-auto border-4 border-theme"
+                style={{
+                  backgroundImage: 'url(/whiteprofilepic_cropped.png)',
+                  backgroundSize: '93%',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat'
+                }}
+              >
                 <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent to-white/10"></div>
-              </div>
+              </GradientBackground>
             </div>
 
             {/* About Content */}

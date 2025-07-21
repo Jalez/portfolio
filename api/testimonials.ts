@@ -1,5 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { DatabaseService } from '../lib/database.js';
+import { EmailService } from '../lib/email.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
@@ -45,6 +46,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           company: company?.trim() || null,
           imageUrl: imageUrl || null,
         });
+
+        // Send notification email to admin
+        try {
+          await EmailService.sendTestimonialNotification({
+            name: name.trim(),
+            quote: quote.trim(),
+            title: title?.trim(),
+            company: company?.trim(),
+            imageUrl: imageUrl,
+          });
+        } catch (error) {
+          console.error('Failed to send testimonial notification:', error);
+          // Don't fail the testimonial submission if notification fails
+        }
 
         res.status(201).json(testimonial);
         break;

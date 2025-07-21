@@ -106,4 +106,78 @@ export class EmailService {
       }
     }
   }
+
+  static async sendTestimonialNotification(testimonialData: {
+    name: string;
+    quote: string;
+    title?: string;
+    company?: string;
+    imageUrl?: string;
+  }): Promise<void> {
+    const adminEmail = 'jaakko.rajala@tuni.fi'; // Your email address
+
+    if (this.isDevelopment) {
+      // In development, just log the notification
+      console.log('📧 DEVELOPMENT MODE: New testimonial notification');
+      console.log('From:', testimonialData.name);
+      console.log('Title:', testimonialData.title || 'N/A');
+      console.log('Company:', testimonialData.company || 'N/A');
+      console.log('Quote:', testimonialData.quote.substring(0, 100) + '...');
+      console.log('📧 In production, this notification would be sent via email');
+      return;
+    } else {
+      // In production, send actual email via SendGrid
+      try {
+        const sgMail = await import('@sendgrid/mail');
+        const apiKey = process.env.SENDGRID_API_KEY;
+        if (!apiKey) {
+          throw new Error('SendGrid API key not configured');
+        }
+        sgMail.default.setApiKey(apiKey);
+
+        const msg = {
+          to: adminEmail,
+          from: 'jaakko.rajala@tuni.fi', // Must be verified in SendGrid
+          subject: 'New Testimonial Submitted - Portfolio',
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #333;">New Testimonial Submitted</h2>
+              <p>Someone has submitted a new testimonial for your portfolio!</p>
+              
+              <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="color: #007bff; margin-top: 0;">From: ${testimonialData.name}</h3>
+                ${testimonialData.title ? `<p><strong>Title:</strong> ${testimonialData.title}</p>` : ''}
+                ${testimonialData.company ? `<p><strong>Company:</strong> ${testimonialData.company}</p>` : ''}
+                <p><strong>Quote:</strong></p>
+                <blockquote style="border-left: 4px solid #007bff; padding-left: 15px; margin: 15px 0; font-style: italic;">
+                  "${testimonialData.quote}"
+                </blockquote>
+              </div>
+              
+              <p><strong>Action Required:</strong> Please log into your admin panel to review and approve this testimonial.</p>
+              
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="https://jaakkorajala.vercel.app/admin" 
+                   style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+                  Go to Admin Panel
+                </a>
+              </div>
+              
+              <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
+              <p style="color: #666; font-size: 12px;">
+                This is an automated notification from your portfolio testimonial system.
+              </p>
+            </div>
+          `,
+        };
+
+        await sgMail.default.send(msg);
+        console.log('Testimonial notification sent successfully');
+      } catch (error) {
+        console.error('SendGrid testimonial notification failed:', error);
+        // Don't throw error to avoid breaking testimonial submission
+        // Just log it so we know there was an issue
+      }
+    }
+  }
 } 

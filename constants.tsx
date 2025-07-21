@@ -96,33 +96,37 @@ export const ReduxIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <Si
 export const ReactRouterIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiReactrouter {...props} />;
 
 // Custom icons for Pinia and Zustand - using official SVG files
-export const PiniaIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <img 
-    src="/pinia.svg" 
-    alt="Pinia" 
-    className={props.className}
-    style={{ 
-      filter: 'brightness(0) invert(1)', 
-      width: props.width || '1em',
-      height: props.height || '1em',
-      ...props.style 
-    }} 
-  />
-);
+export const PiniaIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
+    <img 
+      src="/pinia.svg" 
+      alt="Pinia" 
+      className={props.className}
+      style={{ 
+        filter: 'brightness(0)',
+        width: props.width || '1em',
+        height: props.height || '1em',
+        ...props.style 
+      }} 
+    />
+  );
+};
 
-export const ZustandIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <img 
-    src="/zustand.svg" 
-    alt="Zustand" 
-    className={props.className}
-    style={{ 
-      filter: 'brightness(0) invert(1)', 
-      width: props.width || '1em',
-      height: props.height || '1em',
-      ...props.style 
-    }} 
-  />
-);
+export const ZustandIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
+  return (
+    <img 
+      src="/zustand.svg" 
+      alt="Zustand" 
+      className={props.className}
+      style={{ 
+        filter: 'brightness(0)',
+        width: props.width || '1em',
+        height: props.height || '1em',
+        ...props.style 
+      }} 
+    />
+  );
+};
 
 // 3D library icon
 export const ThreeJSIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiThreedotjs {...props} />;

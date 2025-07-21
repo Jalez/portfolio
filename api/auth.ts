@@ -5,7 +5,7 @@ import { DatabaseService } from '../lib/database.js';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
@@ -130,8 +130,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         res.status(200).json({ message: 'Password updated successfully' });
         break;
 
+      case 'PUT':
+        // Forgot password - reset admin password
+        const { resetEmail, resetPassword } = req.body;
+        
+        if (!resetEmail || !resetPassword) {
+          return res.status(400).json({ error: 'Email and new password are required' });
+        }
+
+        if (resetPassword.length < 8) {
+          return res.status(400).json({ error: 'Password must be at least 8 characters long' });
+        }
+
+        // Only allow reset for admin users
+        const resetUser = await DatabaseService.getUserByEmail(resetEmail);
+        if (!resetUser || !resetUser.is_admin) {
+          return res.status(401).json({ error: 'Admin user not found' });
+        }
+
+        // Hash the new password
+        const resetPasswordHash = await AuthService.hashPassword(resetPassword);
+
+        // Update password in database
+        await DatabaseService.updateUserPassword(resetUser.id, resetPasswordHash);
+
+        res.status(200).json({ message: 'Password reset successfully' });
+        break;
+
       default:
-        res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'OPTIONS']);
+        res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'PUT', 'OPTIONS']);
         res.status(405).json({ error: `Method ${req.method} not allowed` });
     }
   } catch (error) {

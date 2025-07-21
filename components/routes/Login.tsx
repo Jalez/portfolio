@@ -83,6 +83,15 @@ const LoginPage: React.FC = () => {
             >
               {loading ? 'Signing in...' : 'Admin Login'}
             </button>
+            
+            <div className="text-center">
+              <a 
+                href="/forgot-password" 
+                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+              >
+                Forgot Password?
+              </a>
+            </div>
           </div>
         </div>
       </div>

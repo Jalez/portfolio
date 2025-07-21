@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Footer from './components/Footer';
 import LoginPage from './components/routes/Login';
 import AdminDashboard from './components/routes/Admin';
+import ForgotPassword from './components/routes/ForgotPassword';
 import Sections from './components/sections';
 
 const App: React.FC = () => {
@@ -57,6 +58,7 @@ const App: React.FC = () => {
               } />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/admin" element={ <AdminDashboard />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </div>

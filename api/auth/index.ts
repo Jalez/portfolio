@@ -61,4 +61,21 @@ export class AuthAPI {
       throw new Error(error instanceof Error ? error.message : 'Failed to change password');
     }
   }
+
+  // Reset admin password (forgot password)
+  static async resetPassword(email: string, newPassword: string): Promise<void> {
+    try {
+      await axios.put(`${API_BASE_URL}/api/auth`, {
+        resetEmail: email,
+        resetPassword: newPassword,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch (error) {
+      console.error('Password reset error:', error);
+      throw new Error(error instanceof Error ? error.message : 'Failed to reset password');
+    }
+  }
 }

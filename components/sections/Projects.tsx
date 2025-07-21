@@ -4,10 +4,11 @@ import { fetchUserProjects } from '../../data';
 import Carousel from '../reusables/Carousel';
 import Card from '../reusables/Card';
 import Section from '../reusables/Section';
+import GradientBackground from '../reusables/GradientBackground';
 
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
-  <Card className="h-full">
-    <div>
+  <Card className="h-96 sm:h-[28rem] lg:h-[32rem] xl:h-[36rem]">
+    <div className="flex flex-col h-full">
 
     <h3 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-semibold mb-3 sm:mb-4 text-theme-primary group-hover:text-theme-primary transition-colors leading-tight">{project.name}</h3>
     <p className="text-theme-secondary text-sm sm:text-base lg:text-lg mb-4 sm:mb-6 flex-grow leading-relaxed line-clamp-4">{project.description}</p>
@@ -17,7 +18,9 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
         <h4 className="text-sm sm:text-base text-theme-secondary uppercase font-semibold mb-3">Technologies:</h4>
         <div className="flex flex-wrap gap-2 sm:gap-3">
           {project.topics.slice(0, 4).map(topic => (
-            <span key={topic} className="bg-gray-800 text-white text-sm sm:text-base px-3 py-2 rounded-full font-medium border border-gray-600">{topic}</span>
+            <GradientBackground key={topic} variant="topic">
+              {topic}
+            </GradientBackground>
           ))}
         </div>
       </div>

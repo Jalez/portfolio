@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Skill } from '../../types';
 import { MOCK_SKILLS } from '../../data';
 import PageHeading from '../reusables/PageHeading';
+import GradientBackground from '../reusables/GradientBackground';
 
 const SkillCard: React.FC<{ skill: Skill; isVisible: boolean; delay: number }> = ({ skill, isVisible, delay }) => {
   return (
@@ -13,16 +14,16 @@ const SkillCard: React.FC<{ skill: Skill; isVisible: boolean; delay: number }> =
       }}
       title={skill.name}
     >
-      <div className="text-white flex items-center justify-center w-10 h-10 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-14 lg:h-14 xl:w-14 xl:h-14 rounded-full bg-gray-800 border border-gray-600 hover:border-white/50 transition-colors duration-300">
+      <GradientBackground variant="skill" size="md" title={skill.name}>
         {skill.icon ? React.cloneElement(skill.icon as React.ReactElement<any>, { 
-          className: "w-4 h-4 sm:w-4 sm:h-4 md:w-7 md:h-7 lg:w-6 lg:h-6 xl:w-7 xl:h-7 text-white",
+          className: "w-4 h-4 sm:w-4 sm:h-4 md:w-7 md:h-7 lg:w-6 lg:h-6 xl:w-7 xl:h-7 text-gray-800 dark:text-white",
           style: { minWidth: '1rem', minHeight: '1rem' }
         }) : (
-          <div className="w-full h-full bg-white/20 rounded-full flex items-center justify-center text-white text-xs font-bold">
+          <div className="w-full h-full bg-gray-800/20 dark:bg-white/20 rounded-full flex items-center justify-center text-gray-800 dark:text-white text-xs font-bold">
             {skill.name.substring(0,1)}
           </div>
         )}
-      </div>
+      </GradientBackground>
       
       {/* Tooltip */}
       <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
@@ -73,7 +74,7 @@ const Skills: React.FC = () => {
     <section 
       id="skills" 
       ref={sectionRef}
-      className="snap-start min-h-screen flex flex-col pt-20"
+      className="snap-start min-h-screen flex flex-col pt-20 bg-theme-background"
     >
       <div className="container mx-auto px-4 sm:px-1 flex flex-col flex-1 py-4 sm:py-1 max-w-7xl">
         <PageHeading

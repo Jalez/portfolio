@@ -65,7 +65,16 @@ const ForgotPassword: React.FC = () => {
       setConfirmPassword('');
       setVerificationCode('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to reset password');
+      console.error('Password reset error:', err);
+      if (err instanceof Error) {
+        if (err.message.includes('401')) {
+          setError('Invalid or expired verification code. Please request a new code.');
+        } else {
+          setError(err.message);
+        }
+      } else {
+        setError('Failed to reset password');
+      }
     } finally {
       setLoading(false);
     }
@@ -121,6 +130,8 @@ const ForgotPassword: React.FC = () => {
               <input
                 type="email"
                 id="email"
+                name="email"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
@@ -146,6 +157,8 @@ const ForgotPassword: React.FC = () => {
               <input
                 type="text"
                 id="verificationCode"
+                name="verificationCode"
+                autoComplete="one-time-code"
                 value={verificationCode}
                 onChange={(e) => setVerificationCode(e.target.value)}
                 className="w-full px-4 py-3 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"

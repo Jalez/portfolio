@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://jaakkorajala.vercel.app' 
+  ? '' // Use relative URLs in production
   : 'http://localhost:5173';
 
 export interface AuthResponse {

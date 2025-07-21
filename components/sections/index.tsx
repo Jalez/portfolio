@@ -1,7 +1,6 @@
 
 import Skills from './Skills';
 import Projects from './Projects';
-import TestimonialSubmission from './TestimonialSubmission';
 import Testimonials from './Testimonials';
 import Contact from './Contact';
 // @ts-ignore
@@ -16,7 +15,6 @@ const Sections: React.FC = () => {
       <Hero/>
       <Skills />
       <Projects />
-      <TestimonialSubmission />
       <Testimonials />
       <Contact />
     </>

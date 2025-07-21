@@ -96,7 +96,7 @@ const ForgotPassword: React.FC = () => {
             </p>
             <a
               href="/admin"
-              className="bg-theme text-white px-6 py-3 rounded-lg hover:bg-theme-hover transition-colors font-semibold"
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
             >
               Go to Admin Login
             </a>
@@ -142,7 +142,7 @@ const ForgotPassword: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-theme text-white py-3 px-4 rounded-md hover:bg-theme-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme disabled:opacity-50 transition-colors font-semibold"
+              className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 transition-colors font-semibold"
             >
               {loading ? 'Sending Code...' : 'Send Verification Code'}
             </button>
@@ -201,7 +201,7 @@ const ForgotPassword: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-theme text-white py-3 px-4 rounded-md hover:bg-theme-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme disabled:opacity-50 transition-colors font-semibold"
+              className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 transition-colors font-semibold"
             >
               {loading ? 'Resetting Password...' : 'Reset Password'}
             </button>
@@ -210,7 +210,7 @@ const ForgotPassword: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setCodeSent(false)}
-                className="text-theme-primary hover:text-theme-hover text-sm"
+                className="text-blue-600 hover:text-blue-700 text-sm"
               >
                 ← Back to request code
               </button>
@@ -219,7 +219,7 @@ const ForgotPassword: React.FC = () => {
         )}
 
         <div className="text-center">
-          <a href="/admin" className="text-theme-primary hover:text-theme-hover text-sm">
+          <a href="/admin" className="text-blue-600 hover:text-blue-700 text-sm">
             Back to Admin Login
           </a>
         </div>

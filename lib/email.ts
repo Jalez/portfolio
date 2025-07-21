@@ -10,7 +10,7 @@ export interface ResetCode {
 const resetCodes = new Map<string, ResetCode>();
 
 export class EmailService {
-  private static isDevelopment = process.env.NODE_ENV === 'development' || !process.env.EMAIL_USER;
+  private static isDevelopment = process.env.NODE_ENV === 'development' || !process.env.SENDGRID_API_KEY;
 
   static generateResetCode(): string {
     // Generate a 6-digit numeric code
@@ -34,20 +34,14 @@ export class EmailService {
       console.log('📧 In production, this code would be sent via email');
       return code;
     } else {
-      // In production, send actual email
+      // In production, send actual email via SendGrid
       try {
-        const nodemailer = await import('nodemailer');
-        const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-          },
-        });
+        const sgMail = require('@sendgrid/mail');
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-        const mailOptions = {
-          from: process.env.EMAIL_USER,
+        const msg = {
           to: email,
+          from: 'jaakko.rajala@tuni.fi', // Must be verified in SendGrid
           subject: 'Admin Password Reset Code',
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -67,10 +61,10 @@ export class EmailService {
           `,
         };
 
-        await transporter.sendMail(mailOptions);
+        await sgMail.send(msg);
         return code;
       } catch (error) {
-        console.error('Email sending failed:', error);
+        console.error('SendGrid email sending failed:', error);
         resetCodes.delete(email);
         throw new Error('Failed to send reset code');
       }

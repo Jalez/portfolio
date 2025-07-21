@@ -63,7 +63,6 @@ export const NAV_LINKS: NavLink[] = [
   { href: '#hero', label: 'Home' },
   { href: '#skills', label: 'Skills' },
   { href: '#projects', label: 'Projects' },
-  { href: '#testimonial-form', label: 'Share' },
   { href: '#testimonials', label: 'Testimonials' },
   { href: '#contact', label: 'Contact' },
 ];
@@ -118,28 +117,64 @@ export const MOCK_PROJECTS: Project[] = [
 export const MOCK_TESTIMONIALS: Testimonial[] = [
   {
     id: 1,
-    quote: "Working with [Your Name] was an absolute pleasure. Their technical expertise and dedication to quality are truly impressive. The project was delivered on time and exceeded our expectations.",
-    author: 'Jane Doe',
-    title: 'CEO',
-    company: 'Tech Solutions Inc.',
-    imageUrl: 'https://picsum.photos/seed/testi1/100/100'
+    quote: "Jaakko is an exceptional developer who consistently delivers high-quality code. His attention to detail and problem-solving skills are outstanding.",
+    author: "Sarah Chen",
+    title: "Senior Product Manager",
+    company: "TechFlow Solutions",
+    imageUrl: undefined,
+    user_id: 1,
+    is_approved: true,
+    created_at: "2024-01-15T10:30:00Z",
+    updated_at: "2024-01-15T10:30:00Z"
   },
   {
     id: 2,
-    quote: "[Your Name] has a knack for understanding complex requirements and translating them into elegant, functional code. A highly skilled and reliable developer.",
-    author: 'John Smith',
-    title: 'Project Manager',
-    company: 'Innovatech Ltd.',
-    imageUrl: 'https://picsum.photos/seed/testi2/100/100'
+    quote: "Working with Jaakko was a game-changer for our startup. His expertise in React and TypeScript helped us build a robust, scalable frontend that our users love.",
+    author: "Marcus Rodriguez",
+    title: "CTO & Co-founder",
+    company: "InnovateLab",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    user_id: 2,
+    is_approved: true,
+    created_at: "2024-02-20T14:15:00Z",
+    updated_at: "2024-02-20T14:15:00Z"
   },
   {
     id: 3,
-    quote: "The attention to detail and proactive communication from [Your Name] made a significant difference in our project's success. I highly recommend their services.",
-    author: 'Alice Brown',
-    title: 'Lead Designer',
-    company: 'Creative Visions Co.',
-    imageUrl: 'https://picsum.photos/seed/testi3/100/100'
+    quote: "Jaakko's ability to quickly understand complex requirements and translate them into elegant solutions is remarkable. He helped us modernize our legacy system with minimal downtime.",
+    author: "Emily Watson",
+    title: "Lead Developer",
+    company: "DataCorp Industries",
+    imageUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+    user_id: 3,
+    is_approved: true,
+    created_at: "2024-03-10T09:45:00Z",
+    updated_at: "2024-03-10T09:45:00Z"
   },
+  {
+    id: 4,
+    quote: "I've worked with many developers, but Jaakko stands out for his reliability and technical depth. He consistently delivers clean, maintainable code.",
+    author: "David Kim",
+    title: "Engineering Manager",
+    company: "WebScale Inc",
+    imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+    user_id: 4,
+    is_approved: true,
+    created_at: "2024-03-25T16:20:00Z",
+    updated_at: "2024-03-25T16:20:00Z"
+  },
+  {
+    id: 5,
+    quote: "Jaakko brought our vision to life with exceptional skill and creativity. His understanding of user experience and technical implementation helped us create a product that our customers love.",
+    author: "Lisa Thompson",
+    title: "UX Director",
+    company: "Creative Digital",
+    imageUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop&crop=face",
+    user_id: 5,
+    is_approved: true,
+    created_at: "2024-04-05T11:10:00Z",
+    updated_at: "2024-04-05T11:10:00Z"
+  }
 ];
 
 export const MOCK_SKILLS: Skill[] = [
@@ -163,8 +198,8 @@ export const MOCK_SKILLS: Skill[] = [
   { id: 53, name: 'jQuery', category: 'Frontend', icon: <JqueryIcon className="w-10 h-10 text-white" />, level: 60 },
   { id: 54, name: 'Remix', category: 'Frontend', icon: <RemixIcon className="w-10 h-10 text-white" />, level: 75 },
   { id: 55, name: 'Redux', category: 'Frontend', icon: <ReduxIcon className="w-10 h-10 text-white" />, level: 85 },
-  { id: 56, name: 'Zustand', category: 'Frontend', icon: <ZustandIcon className="w-10 h-10 text-white" />, level: 80 },
-  { id: 57, name: 'Pinia', category: 'Frontend', icon: <PiniaIcon className="w-10 h-10 text-white" />, level: 75 },
+      { id: 56, name: 'Zustand', category: 'Frontend', icon: <ZustandIcon className="w-10 h-10" />, level: 80 },
+    { id: 57, name: 'Pinia', category: 'Frontend', icon: <PiniaIcon className="w-10 h-10" />, level: 75 },
   { id: 58, name: 'React Router', category: 'Frontend', icon: <ReactRouterIcon className="w-10 h-10 text-white" />, level: 90 },
   { id: 59, name: 'Three.js', category: 'Frontend', icon: <ThreeJSIcon className="w-10 h-10 text-white" />, level: 70 },
   
@@ -217,6 +252,8 @@ let projectsCache: { data: Project[]; timestamp: number } | null = null;
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 // Fetch the most recently updated repositories (simulating pinned repos)
+
+
 export const fetchUserProjects = async (username: string): Promise<Project[]> => {
   try {
     // Check cache first

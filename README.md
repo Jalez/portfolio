@@ -184,7 +184,6 @@ npm run lint
 │       ├── Projects.tsx        # Projects showcase
 │       ├── Skills.tsx          # Skills section
 │       ├── Testimonials.tsx    # Public testimonial display
-│       ├── TestimonialSubmission.tsx # Anonymous submission form
 │       └── index.tsx           # Section exports
 ├── contexts/                   # React contexts
 │   ├── AuthContext.tsx         # Admin authentication state

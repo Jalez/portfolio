@@ -20,12 +20,13 @@ export interface DatabaseTestimonial {
   quote: string;
   title?: string;
   company?: string;
+  image_url?: string; // Direct image URL for anonymous testimonials
   is_approved: boolean;
   created_at: string;
   updated_at: string;
   // Joined user data (only for admin-submitted testimonials)
   author?: string;
-  imageUrl?: string;
+  imageUrl?: string; // Alias for image_url
 }
 
 export class DatabaseService {
@@ -66,10 +67,11 @@ export class DatabaseService {
     quote: string;
     title?: string;
     company?: string;
+    imageUrl?: string;
   }): Promise<DatabaseTestimonial> {
     const result = await sql`
-      INSERT INTO testimonials (user_id, name, quote, title, company)
-      VALUES (${testimonialData.user_id || null}, ${testimonialData.name}, ${testimonialData.quote}, ${testimonialData.title || null}, ${testimonialData.company || null})
+      INSERT INTO testimonials (user_id, name, quote, title, company, image_url)
+      VALUES (${testimonialData.user_id || null}, ${testimonialData.name}, ${testimonialData.quote}, ${testimonialData.title || null}, ${testimonialData.company || null}, ${testimonialData.imageUrl || null})
       RETURNING *
     `;
     return result.rows[0] as DatabaseTestimonial;

@@ -6,6 +6,7 @@ export interface TestimonialRequest {
   quote: string;
   title?: string;
   company?: string;
+  imageUrl?: string;
 }
 
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
@@ -32,6 +33,8 @@ export class TestimonialAPI {
       return [];
     }
   }
+
+
 
   // Create a new testimonial (no authentication required)
   static async createTestimonial(testimonialData: TestimonialRequest): Promise<DatabaseTestimonial> {

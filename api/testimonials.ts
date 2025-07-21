@@ -26,7 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       case 'POST':
         // Create new testimonial (no authentication required)
-        const { name, quote, title, company } = req.body;
+        const { name, quote, title, company, imageUrl } = req.body;
         
         // Validate required fields
         if (!name || !name.trim()) {
@@ -43,6 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           quote: quote.trim(),
           title: title?.trim() || null,
           company: company?.trim() || null,
+          imageUrl: imageUrl || null,
         });
 
         res.status(201).json(testimonial);

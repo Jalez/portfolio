@@ -3,17 +3,40 @@ import { AuthAPI } from '../../api/auth/index';
 
 const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState('jaakko.rajala@tuni.fi'); // Pre-filled with admin email
+  const [verificationCode, setVerificationCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [codeSent, setCodeSent] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleRequestCode = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email.trim()) {
       setError('Please enter the admin email');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      await AuthAPI.requestResetCode(email);
+      setCodeSent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to send reset code');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!verificationCode.trim()) {
+      setError('Please enter the verification code');
       return;
     }
 
@@ -36,10 +59,11 @@ const ForgotPassword: React.FC = () => {
     setError('');
 
     try {
-      await AuthAPI.resetPassword(email, newPassword);
+      await AuthAPI.resetPasswordWithCode(email, verificationCode, newPassword);
       setSuccess(true);
       setNewPassword('');
       setConfirmPassword('');
+      setVerificationCode('');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to reset password');
     } finally {
@@ -87,57 +111,99 @@ const ForgotPassword: React.FC = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-theme-primary mb-2">
-              Admin Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
-              placeholder="jaakko.rajala@tuni.fi"
-            />
-          </div>
+        {!codeSent ? (
+          // Step 1: Request verification code
+          <form onSubmit={handleRequestCode} className="space-y-6">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-theme-primary mb-2">
+                Admin Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
+                placeholder="jaakko.rajala@tuni.fi"
+              />
+            </div>
 
-          <div>
-            <label htmlFor="newPassword" className="block text-sm font-medium text-theme-primary mb-2">
-              New Password
-            </label>
-            <input
-              type="password"
-              id="newPassword"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
-              placeholder="Enter new password (min 8 characters)"
-            />
-          </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-theme text-white py-3 px-4 rounded-md hover:bg-theme-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme disabled:opacity-50 transition-colors font-semibold"
+            >
+              {loading ? 'Sending Code...' : 'Send Verification Code'}
+            </button>
+          </form>
+        ) : (
+          // Step 2: Enter code and new password
+          <form onSubmit={handleResetPassword} className="space-y-6">
+            <div>
+              <label htmlFor="verificationCode" className="block text-sm font-medium text-theme-primary mb-2">
+                Verification Code
+              </label>
+              <input
+                type="text"
+                id="verificationCode"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                className="w-full px-4 py-3 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
+                placeholder="Enter 6-digit code from email"
+                maxLength={6}
+              />
+              <p className="text-xs text-theme-secondary mt-1">
+                Check your email for the verification code (expires in 15 minutes)
+              </p>
+            </div>
 
-          <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-theme-primary mb-2">
-              Confirm New Password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
-              placeholder="Confirm new password"
-            />
-          </div>
+            <div>
+              <label htmlFor="newPassword" className="block text-sm font-medium text-theme-primary mb-2">
+                New Password
+              </label>
+              <input
+                type="password"
+                id="newPassword"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full px-4 py-3 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
+                placeholder="Enter new password (min 8 characters)"
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-theme text-white py-3 px-4 rounded-md hover:bg-theme-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme disabled:opacity-50 transition-colors font-semibold"
-          >
-            {loading ? 'Resetting Password...' : 'Reset Password'}
-          </button>
-        </form>
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-theme-primary mb-2">
+                Confirm New Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-4 py-3 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
+                placeholder="Confirm new password"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-theme text-white py-3 px-4 rounded-md hover:bg-theme-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme disabled:opacity-50 transition-colors font-semibold"
+            >
+              {loading ? 'Resetting Password...' : 'Reset Password'}
+            </button>
+
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => setCodeSent(false)}
+                className="text-theme-primary hover:text-theme-hover text-sm"
+              >
+                ← Back to request code
+              </button>
+            </div>
+          </form>
+        )}
 
         <div className="text-center">
           <a href="/admin" className="text-theme-primary hover:text-theme-hover text-sm">

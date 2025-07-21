@@ -62,13 +62,31 @@ export class AuthAPI {
     }
   }
 
-  // Reset admin password (forgot password)
-  static async resetPassword(email: string, newPassword: string): Promise<void> {
+  // Request password reset code
+  static async requestResetCode(email: string): Promise<void> {
     try {
       await axios.put(`${API_BASE_URL}/api/auth`, {
-        resetEmail: email,
-        resetPassword: newPassword,
+        requestEmail: email,
       }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch (error) {
+      console.error('Request reset code error:', error);
+      throw new Error(error instanceof Error ? error.message : 'Failed to request reset code');
+    }
+  }
+
+  // Reset password with verification code
+  static async resetPasswordWithCode(email: string, code: string, newPassword: string): Promise<void> {
+    try {
+      await axios.delete(`${API_BASE_URL}/api/auth`, {
+        data: {
+          resetEmail: email,
+          resetCode: code,
+          resetPassword: newPassword,
+        },
         headers: {
           'Content-Type': 'application/json',
         },

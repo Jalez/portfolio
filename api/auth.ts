@@ -135,23 +135,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Request password reset - send verification code
         const { requestEmail } = req.body;
         
+        console.log('Password reset request for email:', requestEmail);
+        
         if (!requestEmail) {
           return res.status(400).json({ error: 'Email is required' });
         }
 
         // Only allow reset for admin users
         const requestUser = await DatabaseService.getUserByEmail(requestEmail);
+        console.log('User found:', requestUser ? 'yes' : 'no', 'is_admin:', requestUser?.is_admin);
+        
         if (!requestUser || !requestUser.is_admin) {
           return res.status(401).json({ error: 'Admin user not found' });
         }
 
         try {
           // Send reset code via email
+          console.log('Attempting to send reset code...');
           await EmailService.sendResetCode(requestEmail);
+          console.log('Reset code sent successfully');
           res.status(200).json({ message: 'Reset code sent to your email' });
         } catch (error) {
           console.error('Failed to send reset code:', error);
-          res.status(500).json({ error: 'Failed to send reset code' });
+          res.status(500).json({ 
+            error: 'Failed to send reset code',
+            details: error instanceof Error ? error.message : 'Unknown error'
+          });
         }
         break;
 

@@ -10,7 +10,7 @@ export interface ResetCode {
 const resetCodes = new Map<string, ResetCode>();
 
 export class EmailService {
-  private static isDevelopment = process.env.NODE_ENV === 'development';
+  private static isDevelopment = process.env.NODE_ENV === 'development' || !process.env.EMAIL_USER;
 
   static generateResetCode(): string {
     // Generate a 6-digit numeric code

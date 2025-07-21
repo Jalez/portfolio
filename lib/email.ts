@@ -36,8 +36,12 @@ export class EmailService {
     } else {
       // In production, send actual email via SendGrid
       try {
-        const sgMail = require('@sendgrid/mail');
-        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+        const sgMail = await import('@sendgrid/mail');
+        const apiKey = process.env.SENDGRID_API_KEY;
+        if (!apiKey) {
+          throw new Error('SendGrid API key not configured');
+        }
+        sgMail.default.setApiKey(apiKey);
 
         const msg = {
           to: email,
@@ -61,7 +65,7 @@ export class EmailService {
           `,
         };
 
-        await sgMail.send(msg);
+        await sgMail.default.send(msg);
         return code;
       } catch (error) {
         console.error('SendGrid email sending failed:', error);

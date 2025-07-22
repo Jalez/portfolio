@@ -155,56 +155,6 @@ npm run type-check
 npm run lint
 ```
 
-## 📁 Project Structure
-
-```
-├── api/                          # Vercel serverless functions
-│   ├── auth.ts                  # Admin authentication endpoints
-│   ├── testimonials.ts          # Public testimonial endpoints
-│   ├── admin/                   # Admin-only protected endpoints
-│   │   └── testimonials.ts      # Admin testimonial management
-│   ├── auth/                    # Authentication utilities
-│   │   └── index.ts            # Auth helper functions
-│   └── testimonials/           # Testimonial API routes
-│       └── index.ts            # Public testimonial operations
-├── components/                  # React components
-│   ├── Header.tsx              # Site header with navigation
-│   ├── Footer.tsx              # Site footer
-│   ├── reusables/              # Reusable UI components
-│   │   ├── Card.tsx            # Generic card component
-│   │   ├── Carousel.tsx        # Testimonial carousel
-│   │   ├── PageHeading.tsx     # Page title component
-│   │   └── Section.tsx         # Section wrapper component
-│   ├── routes/                 # Page components
-│   │   ├── Admin.tsx           # Admin dashboard
-│   │   └── Login.tsx           # Admin login page
-│   └── sections/               # Page sections
-│       ├── Contact.tsx         # Contact section
-│       ├── Hero.tsx            # Hero section
-│       ├── Projects.tsx        # Projects showcase
-│       ├── Skills.tsx          # Skills section
-│       ├── Testimonials.tsx    # Public testimonial display
-│       └── index.tsx           # Section exports
-├── contexts/                   # React contexts
-│   ├── AuthContext.tsx         # Admin authentication state
-│   └── ThemeContext.tsx        # Theme management
-├── hooks/                      # Custom React hooks
-│   └── useScrollFade.ts        # Scroll-based fade animations
-├── lib/                        # Core utilities and services
-│   ├── auth.ts                 # Authentication utilities
-│   └── database.ts             # Database operations
-├── public/                     # Static assets
-│   ├── jr_logo.svg             # Site logo
-│   ├── profilepic.png          # Profile image
-│   ├── whiteprofilepic.png     # Alternative profile image
-│   └── *.svg                   # Technology icons
-├── schema.private.sql          # Database schema
-├── generate-admin-hash.js      # Password hash generator
-├── types.ts                    # TypeScript type definitions
-├── constants.tsx               # Application constants
-├── data.tsx                    # Static data
-└── metadata.json               # Site metadata
-```
 
 ## 🛡️ Security Implementation
 

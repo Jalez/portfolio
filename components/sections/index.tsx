@@ -1,5 +1,6 @@
 
 import Skills from './Skills';
+import Works from './Works';
 import Projects from './Projects';
 import Testimonials from './Testimonials';
 import Contact from './Contact';
@@ -14,6 +15,7 @@ const Sections: React.FC = () => {
     <>
       <Hero/>
       <Skills />
+      <Works />
       <Projects />
       <Testimonials />
       <Contact />

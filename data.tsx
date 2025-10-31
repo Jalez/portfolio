@@ -1,4 +1,4 @@
-import { Project, Testimonial, Skill, NavLink } from './types';
+import { Project, Work, Testimonial, Skill, NavLink } from './types';
 import { 
   JavaScriptIcon, 
   TypeScriptIcon, 
@@ -62,6 +62,7 @@ import {
 export const NAV_LINKS: NavLink[] = [
   { href: '#hero', label: 'Home' },
   { href: '#skills', label: 'Skills' },
+  { href: '#works', label: 'Works' },
   { href: '#projects', label: 'Projects' },
   { href: '#testimonials', label: 'Testimonials' },
   { href: '#contact', label: 'Contact' },
@@ -112,6 +113,15 @@ export const MOCK_PROJECTS: Project[] = [
     topics: ['react', 'd3js', 'data-visualization', 'typescript'],
     imageUrl: 'https://picsum.photos/seed/project4/600/400'
   },
+];
+
+export const MOCK_WORKS: Work[] = [
+  {
+    id: 1,
+    title: 'Scriba',
+    description: 'Rich text editor with OCR for text extraction, text and image generation, collaboration through websocket connection, blob storage for files, stripe for payments Build with Next.js, Shadcn/ui, Tailwind CSS, PostgreSQL, Redis, Docker, aws, vercel, and more.',
+    url: 'https://scriba-web.vercel.app/'
+  }
 ];
 
 export const MOCK_TESTIMONIALS: Testimonial[] = [

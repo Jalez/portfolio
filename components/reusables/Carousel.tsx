@@ -44,7 +44,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
             <>
               <button
                 onClick={prevSlide}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800/80 hover:bg-gray-700 text-white p-2 rounded-full transition-colors z-10 shadow-lg"
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 text-theme-primary hover:text-theme-secondary p-2 rounded-full transition-colors z-10"
                 aria-label="Previous item"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,7 +53,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800/80 hover:bg-gray-700 text-white p-2 rounded-full transition-colors z-10 shadow-lg"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-theme-primary hover:text-theme-secondary p-2 rounded-full transition-colors z-10"
                 aria-label="Next item"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,7 +81,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-2 h-2 rounded-full transition-colors ${
-                index === currentIndex ? 'bg-white' : 'bg-gray-600'
+                index === currentIndex ? 'bg-theme-primary' : 'bg-theme-secondary hover:bg-theme-primary'
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />

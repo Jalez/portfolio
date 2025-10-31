@@ -12,6 +12,13 @@ export interface Project {
   imageUrl?: string;
 }
 
+export interface Work {
+  id: number;
+  title: string;
+  description: string;
+  url: string;
+}
+
 export interface Testimonial {
   id: number;
   quote: string;

@@ -1,7 +1,13 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { setupIframeThemeListener } from '../lib/iframeThemeListener';
+/**
+ * Example Theme Context using iframeThemeListener
+ *
+ * This is an example of how to integrate the iframe theme listener
+ * into a new project's theme context. You can copy this pattern
+ * and adapt it to your project's needs.
+ */
 
-type Theme = 'light' | 'dark';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { setupIframeThemeListener, Theme } from './iframeThemeListener';
 
 interface ThemeContextType {
   theme: Theme;
@@ -19,31 +25,21 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Initialize with the theme that's already set on the document to prevent flash
+  // Initialize theme from localStorage
   const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem('theme') as Theme;
     return savedTheme || 'dark';
   });
 
+  // Apply theme to document when it changes
   useEffect(() => {
-    // Only update if the theme has actually changed
-    const currentTheme = document.documentElement.getAttribute('data-theme') as Theme;
-    if (currentTheme !== theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
+    document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
   // Listen for theme change messages from parent iframes
   useEffect(() => {
-    return setupIframeThemeListener((newTheme) => {
-      setTheme(newTheme);
-    });
+    return setupIframeThemeListener(setTheme);
   }, []);
 
   const toggleTheme = () => {

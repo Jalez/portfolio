@@ -101,11 +101,11 @@ export const PiniaIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
     <img 
       src="/pinia.svg" 
       alt="Pinia" 
-      className={props.className}
+      className={props.className || ''}
       style={{ 
-        filter: 'brightness(0)',
-        width: props.width || '1em',
-        height: props.height || '1em',
+        filter: 'brightness(0) invert(var(--icon-invert, 0))',
+        width: '60%',
+        height: '60%',
         ...props.style 
       }} 
     />
@@ -117,11 +117,11 @@ export const ZustandIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
     <img 
       src="/zustand.svg" 
       alt="Zustand" 
-      className={props.className}
+      className={props.className || ''}
       style={{ 
-        filter: 'brightness(0)',
-        width: props.width || '1em',
-        height: props.height || '1em',
+        filter: 'brightness(0) invert(var(--icon-invert, 0))',
+        width: '60%',
+        height: '60%',
         ...props.style 
       }} 
     />

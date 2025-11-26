@@ -3,7 +3,7 @@
 import React from 'react';
 
 interface GradientBackgroundProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   variant?: 'default' | 'skill' | 'topic' | 'profile';
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -21,7 +21,11 @@ const GradientBackground: React.FC<GradientBackgroundProps> = ({
   title,
   style
 }) => {
-  const baseClasses = "bg-gradient-to-tr from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-700 border border-gray-400 dark:border-gray-600 hover:border-gray-600 dark:hover:border-white/50 transition-colors duration-300";
+  // Profile variant has no background to blend seamlessly with page
+  const isProfile = variant === 'profile';
+  const baseClasses = isProfile 
+    ? "bg-transparent border border-neutral-300 dark:border-neutral-800 hover:border-neutral-500 dark:hover:border-neutral-600 shadow-sm dark:shadow-black/50 transition-all duration-300"
+    : "bg-gradient-to-tr from-neutral-100 to-neutral-200 dark:from-neutral-950 dark:to-neutral-900 border border-neutral-300 dark:border-neutral-800 hover:border-neutral-500 dark:hover:border-neutral-600 shadow-sm dark:shadow-black/50 transition-all duration-300";
   
   const sizeClasses = {
     sm: "w-8 h-8",

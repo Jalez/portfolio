@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Testimonial } from '../../../types';
-import Card from '../../reusables/Card';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface TestimonialCardProps {
   testimonial: Testimonial;
@@ -12,7 +12,8 @@ interface TestimonialCardProps {
 const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, index = 0 }) => (
   <div className="animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
     <Card className="h-96 sm:h-[28rem] lg:h-[32rem] xl:h-[36rem]">
-      <div className="flex flex-col h-full">
+      <CardContent className="p-4 sm:p-6 h-full">
+        <div className="flex flex-col h-full">
         {/* Profile Image */}
         <div className="flex justify-center mb-4">
           {testimonial.imageUrl ? (
@@ -52,6 +53,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, index = 
           </p>
         </div>
       </div>
+      </CardContent>
     </Card>
   </div>
 );

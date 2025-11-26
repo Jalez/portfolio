@@ -4,13 +4,14 @@ import React, { useState, useEffect } from 'react';
 import { Project } from '../../types';
 import { fetchUserProjects } from '../../data';
 import Carousel from '../reusables/Carousel';
-import Card from '../reusables/Card';
+import { Card, CardContent } from '@/components/ui/card';
 import Section from '../reusables/Section';
 import GradientBackground from '../reusables/GradientBackground';
 
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
-  <Card className="h-96 sm:h-[28rem] lg:h-[32rem] xl:h-[36rem]">
-    <div className="flex flex-col h-full">
+  <Card className="h-96 sm:h-[28rem] lg:h-[32rem] xl:h-[36rem] group">
+    <CardContent className="p-4 sm:p-6 h-full">
+      <div className="flex flex-col h-full">
 
     <h3 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-semibold mb-3 sm:mb-4 text-theme-primary group-hover:text-theme-primary transition-colors leading-tight">{project.name}</h3>
     <p className="text-theme-secondary text-sm sm:text-base lg:text-lg mb-4 sm:mb-6 flex-grow leading-relaxed line-clamp-4">{project.description}</p>
@@ -63,8 +64,8 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => (
         </svg>
       </a>
     </div>
-        </div>
-
+      </div>
+    </CardContent>
   </Card>
 );
 

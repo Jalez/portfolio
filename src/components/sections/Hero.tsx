@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import Card from '../reusables/Card';
+import { Card, CardContent } from '@/components/ui/card';
 import { useScrollFade } from '../../hooks/useScrollFade';
 import GradientBackground from '../reusables/GradientBackground';
 
@@ -75,34 +75,31 @@ const Hero: React.FC = () => {
       ref={scrollFade.ref}
       style={scrollFade.style}
     >
-      <div className="container mx-auto px-4 sm:px-6 flex flex-col flex-1 py-4 sm:py-6 justify-center">
-        <div className="max-w-4xl mx-auto">
-          {/* Hero heading with typewriter effect */}
-          <h1 
-            ref={typewriterRef}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-4 sm:mb-6 text-theme-secondary leading-tight text-center min-h-[1.2em]"
-          />
-          <div className="grid lg:grid-cols-2 gap-5 lg:gap-12 items-center">
+      <div className="container mx-auto px-4 sm:px-6 flex flex-col flex-1 justify-center">
+          <div className="flex flex-col items-center justify-center space-y-8">
             {/* Profile Image */}
-            <div className="text-center lg:text-center flex justify-center">
+            <div className="flex justify-center">
               <GradientBackground 
                 variant="profile" 
                 size="lg" 
-                className="relative inline-block mx-auto border-none"
+                className="relative border-none"
                 style={{
                   backgroundImage: 'url(/whiteprofilepic_cropped.png)',
                   backgroundSize: '93%',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat'
                 }}
-              >
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent to-white/10"></div>
-              </GradientBackground>
+              />
             </div>
 
             {/* About Content */}
-            <div className="space-y-4">
-                <p 
+            <div className="space-y-4 w-full max-w-[640px]">
+                
+                 <h1 
+            ref={typewriterRef}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-4 sm:mb-6 text-theme-secondary leading-tight text-center min-h-[1.2em]"
+          />
+                  <p 
                   ref={aboutTypewriterRef}
                   className="text-lg text-theme-primary leading-relaxed min-h-[4em] text-center"
                 />
@@ -110,18 +107,22 @@ const Hero: React.FC = () => {
               
               {/* Quick Stats */}
               <div className="grid grid-cols-2 gap-4 mt-6">
-                <Card variant="centered" padding="sm" hoverScale={false} animatedBorder={false}>
-                  <div className="text-2xl font-bold text-theme-primary">4+</div>
-                  <div className="text-sm text-theme-secondary">Years Experience</div>
+                <Card className="text-center">
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="text-2xl font-bold text-theme-primary">4+</div>
+                    <div className="text-sm text-theme-secondary">Years Experience</div>
+                  </CardContent>
                 </Card>
-                <Card variant="centered" padding="sm" hoverScale={false} animatedBorder={false}>
-                  <div className="text-2xl font-bold text-theme-primary">10+</div>
-                  <div className="text-sm text-theme-secondary">Projects Completed</div>
+                <Card className="text-center">
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="text-2xl font-bold text-theme-primary">10+</div>
+                    <div className="text-sm text-theme-secondary">Projects Completed</div>
+                  </CardContent>
                 </Card>
               </div>
-            </div>
+                </div>
+            
           </div>
-        </div>
       </div>
     </section>
   );

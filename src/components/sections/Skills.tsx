@@ -5,33 +5,39 @@ import { Skill } from '../../types';
 import { MOCK_SKILLS } from '../../data';
 import PageHeading from '../reusables/PageHeading';
 import GradientBackground from '../reusables/GradientBackground';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 const SkillCard: React.FC<{ skill: Skill; isVisible: boolean; delay: number }> = ({ skill, isVisible, delay }) => {
   return (
-    <div 
-      className="p-0 sm:p-1 flex items-center justify-center text-center hover:scale-110 group relative aspect-square transition-all duration-300"
-      style={{ 
-        opacity: isVisible ? 1 : 0,
-        transition: `opacity 0.6s ease-out ${delay}s`,
-      }}
-      title={skill.name}
-    >
-      <GradientBackground variant="skill" size="md" title={skill.name}>
-        {skill.icon ? React.cloneElement(skill.icon as React.ReactElement<any>, { 
-          className: "w-4 h-4 sm:w-4 sm:h-4 md:w-7 md:h-7 lg:w-6 lg:h-6 xl:w-7 xl:h-7 text-gray-800 dark:text-white",
-          style: { minWidth: '1rem', minHeight: '1rem' }
-        }) : (
-          <div className="w-full h-full bg-gray-800/20 dark:bg-white/20 rounded-full flex items-center justify-center text-gray-800 dark:text-white text-xs font-bold">
-            {skill.name.substring(0,1)}
-          </div>
-        )}
-      </GradientBackground>
-      
-      {/* Tooltip */}
-      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div 
+          className="p-0 sm:p-1 flex items-center justify-center text-center hover:scale-110 relative aspect-square transition-all duration-300 cursor-pointer"
+          style={{ 
+            opacity: isVisible ? 1 : 0,
+            transition: `opacity 0.6s ease-out ${delay}s`,
+          }}
+        >
+          <GradientBackground variant="skill" size="md" title={skill.name}>
+
+            {skill.icon ? (skill.icon
+            ) : (
+              <div className="w-full h-full bg-gray-800/20 dark:bg-white/20 rounded-full flex items-center justify-center text-gray-800 dark:text-white text-xs font-bold">
+                {skill.name.substring(0,1)}
+              </div>
+            )}
+          </GradientBackground>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent side="top">
         {skill.name}
-      </div>
-    </div>
+      </TooltipContent>
+    </Tooltip>
   );
 };
 
@@ -73,11 +79,12 @@ const Skills: React.FC = () => {
   ];
 
   return (
-    <section 
-      id="skills" 
-      ref={sectionRef}
-      className="snap-start min-h-screen flex flex-col pt-20 bg-theme-background"
-    >
+    <TooltipProvider delayDuration={100}>
+      <section 
+        id="skills" 
+        ref={sectionRef}
+        className="snap-start min-h-screen flex flex-col pt-20 bg-theme-background"
+      >
       <div className="container mx-auto px-4 sm:px-1 flex flex-col flex-1 py-4 sm:py-1 max-w-7xl">
         <PageHeading
           title="My Skills"
@@ -207,6 +214,7 @@ const Skills: React.FC = () => {
         </div>
       </div>
     </section>
+    </TooltipProvider>
   );
 };
 

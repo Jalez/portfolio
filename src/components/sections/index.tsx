@@ -1,3 +1,4 @@
+'use client';
 
 import Skills from './Skills';
 import Works from './Works';

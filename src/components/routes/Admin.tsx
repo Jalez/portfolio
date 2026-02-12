@@ -237,7 +237,7 @@ const AdminDashboard: React.FC = () => {
                             <div className="flex items-center">
                               <img
                                 className="h-10 w-10 rounded-full object-cover"
-                                src={testimonial.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.author || 'User')}&background=6366f1&color=fff&size=40`}
+                                src={testimonial.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.author || 'User')}&background=000000&color=fff&size=40`}
                                 alt={testimonial.author}
                               />
                               <div className="ml-4">

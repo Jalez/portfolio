@@ -28,7 +28,7 @@ export const useTestimonials = () => {
         author: testimonial.name,
         title: testimonial.title,
         company: testimonial.company,
-        imageUrl: testimonial.image_url || testimonial.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=6366f1&color=fff&size=100`,
+        imageUrl: testimonial.image_url || testimonial.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=000000&color=fff&size=100`,
         user_id: testimonial.user_id,
         is_approved: testimonial.is_approved,
         created_at: testimonial.created_at,

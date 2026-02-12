@@ -24,12 +24,12 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, index = 
               onError={(e) => {
                 // Fallback to generated avatar if image fails to load
                 const target = e.target as HTMLImageElement;
-                target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.author)}&background=6366f1&color=fff&size=100`;
+                target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.author)}&background=000000&color=fff&size=100`;
               }}
             />
           ) : (
             <img 
-              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.author)}&background=6366f1&color=fff&size=100`}
+              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.author)}&background=000000&color=fff&size=100`}
               alt={testimonial.author} 
               className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-theme shadow-md object-cover"
             />

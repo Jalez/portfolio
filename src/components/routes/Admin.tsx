@@ -12,6 +12,7 @@ const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState<number | null>(null);
+  const [imageUploadLoading, setImageUploadLoading] = useState<number | null>(null);
   
   // Password change state
   const [passwordFormData, setPasswordFormData] = useState({
@@ -76,6 +77,29 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  const handleImageUpload = async (testimonialId: number, file: File) => {
+    if (!token) return;
+
+    setImageUploadLoading(testimonialId);
+    setError('');
+
+    try {
+      const imageUrl = await TestimonialAPI.uploadTestimonialImage(file);
+      await TestimonialAPI.updateTestimonialImage(testimonialId, imageUrl, token);
+      setTestimonials((prev) =>
+        prev.map((testimonial) =>
+          testimonial.id === testimonialId
+            ? { ...testimonial, image_url: imageUrl }
+            : testimonial
+        )
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to upload image');
+    } finally {
+      setImageUploadLoading(null);
+    }
+  };
+
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
     if (passwordFormData.newPassword !== passwordFormData.confirmPassword) {
@@ -108,7 +132,7 @@ const AdminDashboard: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-theme-background">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-theme-primary mb-4">Access Denied</h2>
-          <p className="text-theme-secondary mb-6">You don't have permission to access this page.</p>
+          <p className="text-theme-secondary mb-6">You don&apos;t have permission to access this page.</p>
           <button
             onClick={() => window.location.href = '/'}
             className="bg-theme text-white px-6 py-2 rounded-lg hover:bg-theme-hover transition-colors"
@@ -231,65 +255,89 @@ const AdminDashboard: React.FC = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-theme-border">
-                      {testimonials.map((testimonial) => (
-                        <tr key={testimonial.id} className="hover:bg-theme-background">
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <img
-                                className="h-10 w-10 rounded-full object-cover"
-                                src={testimonial.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.author || 'User')}&background=000000&color=fff&size=40`}
-                                alt={testimonial.author}
-                              />
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-theme-primary">
-                                  {testimonial.author}
-                                </div>
-                                {testimonial.title && (
-                                  <div className="text-sm text-theme-secondary">
-                                    {testimonial.title}
-                                    {testimonial.company && `, ${testimonial.company}`}
+                      {testimonials.map((testimonial) => {
+                        const displayName = testimonial.name || testimonial.author || 'User';
+                        const avatarUrl =
+                          testimonial.image_url ||
+                          testimonial.imageUrl ||
+                          `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=000000&color=fff&size=40`;
+
+                        return (
+                          <tr key={testimonial.id} className="hover:bg-theme-background">
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <img
+                                  className="h-10 w-10 rounded-full object-cover"
+                                  src={avatarUrl}
+                                  alt={displayName}
+                                />
+                                <div className="ml-4">
+                                  <div className="text-sm font-medium text-theme-primary">
+                                    {displayName}
                                   </div>
-                                )}
+                                  {testimonial.title && (
+                                    <div className="text-sm text-theme-secondary">
+                                      {testimonial.title}
+                                      {testimonial.company && `, ${testimonial.company}`}
+                                    </div>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4">
-                            <div className="text-sm text-theme-primary max-w-xs truncate">
-                              {testimonial.quote}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              testimonial.is_approved
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-yellow-100 text-yellow-800'
-                            }`}>
-                              {testimonial.is_approved ? 'Approved' : 'Pending'}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-theme-secondary">
-                            {new Date(testimonial.created_at).toLocaleDateString()}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                            {!testimonial.is_approved && (
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="text-sm text-theme-primary max-w-xs truncate">
+                                {testimonial.quote}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                testimonial.is_approved
+                                  ? 'bg-green-100 text-green-800'
+                                  : 'bg-yellow-100 text-yellow-800'
+                              }`}>
+                                {testimonial.is_approved ? 'Approved' : 'Pending'}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-theme-secondary">
+                              {new Date(testimonial.created_at).toLocaleDateString()}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                              {!testimonial.is_approved && (
+                                <button
+                                  onClick={() => handleApprove(testimonial.id)}
+                                  disabled={actionLoading === testimonial.id}
+                                  className="text-green-600 hover:text-green-900 disabled:opacity-50"
+                                >
+                                  {actionLoading === testimonial.id ? 'Approving...' : 'Approve'}
+                                </button>
+                              )}
+                              <label className="text-blue-600 hover:text-blue-900 cursor-pointer">
+                                {imageUploadLoading === testimonial.id ? 'Uploading image...' : 'Upload image'}
+                                <input
+                                  type="file"
+                                  className="hidden"
+                                  accept="image/png,image/jpeg,image/webp,image/gif"
+                                  disabled={imageUploadLoading === testimonial.id}
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      handleImageUpload(testimonial.id, file);
+                                    }
+                                    e.target.value = '';
+                                  }}
+                                />
+                              </label>
                               <button
-                                onClick={() => handleApprove(testimonial.id)}
-                                disabled={actionLoading === testimonial.id}
-                                className="text-green-600 hover:text-green-900 disabled:opacity-50"
+                                onClick={() => handleDelete(testimonial.id)}
+                                disabled={actionLoading === testimonial.id || imageUploadLoading === testimonial.id}
+                                className="text-red-600 hover:text-red-900 disabled:opacity-50"
                               >
-                                {actionLoading === testimonial.id ? 'Approving...' : 'Approve'}
+                                {actionLoading === testimonial.id ? 'Deleting...' : 'Delete'}
                               </button>
-                            )}
-                            <button
-                              onClick={() => handleDelete(testimonial.id)}
-                              disabled={actionLoading === testimonial.id}
-                              className="text-red-600 hover:text-red-900 disabled:opacity-50"
-                            >
-                              {actionLoading === testimonial.id ? 'Deleting...' : 'Delete'}
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>

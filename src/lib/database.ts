@@ -118,6 +118,14 @@ export class DatabaseService {
     `;
   }
 
+  static async updateTestimonialImage(id: number, imageUrl: string | null): Promise<void> {
+    await sql`
+      UPDATE testimonials
+      SET image_url = ${imageUrl}, updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${id}
+    `;
+  }
+
   static async getUserTestimonials(userId: number): Promise<DatabaseTestimonial[]> {
     const result = await sql`
       SELECT 

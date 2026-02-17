@@ -20,7 +20,9 @@ const TestimonialForm: React.FC = () => {
     imageUrl: '',
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFileName, setImageFileName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   
@@ -63,18 +65,35 @@ const TestimonialForm: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Update image preview when imageUrl changes
-    if (name === 'imageUrl' && value) {
-      setImagePreview(value);
-    } else if (name === 'imageUrl' && !value) {
-      setImagePreview(null);
-    }
   };
 
   const removeImage = () => {
     setImagePreview(null);
+    setImageFileName('');
     setFormData(prev => ({ ...prev, imageUrl: '' }));
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setError('');
+    setUploadingImage(true);
+
+    try {
+      const uploadedImageUrl = await TestimonialAPI.uploadTestimonialImage(file);
+      setFormData(prev => ({ ...prev, imageUrl: uploadedImageUrl }));
+      setImagePreview(uploadedImageUrl);
+      setImageFileName(file.name);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to upload image');
+      setImagePreview(null);
+      setImageFileName('');
+      setFormData(prev => ({ ...prev, imageUrl: '' }));
+    } finally {
+      setUploadingImage(false);
+      e.target.value = '';
+    }
   };
 
   const resetForm = () => {
@@ -82,6 +101,7 @@ const TestimonialForm: React.FC = () => {
     setError('');
     setFormData({ name: '', quote: '', title: '', company: '', imageUrl: '' });
     setImagePreview(null);
+    setImageFileName('');
   };
 
   if (success) {
@@ -190,10 +210,10 @@ const TestimonialForm: React.FC = () => {
                       </div>
         </div>
 
-        {/* Profile Picture URL Section */}
+        {/* Profile Picture Section */}
         <div>
-          <label htmlFor="imageUrl" className="block text-sm font-medium text-theme-primary mb-2">
-            Profile Picture URL (Optional)
+          <label htmlFor="imageUpload" className="block text-sm font-medium text-theme-primary mb-2">
+            Profile Picture (Optional)
           </label>
           <div className="space-y-4">
             {/* Image Preview */}
@@ -215,35 +235,32 @@ const TestimonialForm: React.FC = () => {
                   </button>
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm text-theme-secondary">
-                    Image preview
-                  </p>
+                  <p className="text-sm text-theme-secondary">Image preview</p>
+                  {imageFileName && <p className="text-xs text-theme-secondary mt-1">{imageFileName}</p>}
                 </div>
               </div>
             )}
-            
-            {/* URL Input */}
+
+            {/* File Input */}
             <input
-              type="url"
-              id="imageUrl"
-              name="imageUrl"
-              value={formData.imageUrl}
-              onChange={handleChange}
-              placeholder="https://example.com/your-photo.jpg"
+              type="file"
+              id="imageUpload"
+              accept="image/png,image/jpeg,image/webp,image/gif"
+              onChange={handleImageUpload}
               className="w-full px-4 py-3 border border-theme-border rounded-md bg-theme-background text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-theme"
             />
             <p className="text-xs text-theme-secondary">
-              Provide a direct link to your profile picture (e.g., LinkedIn, GitHub, or any image hosting service)
+              Upload JPG, PNG, WEBP, or GIF up to 5MB.
             </p>
           </div>
         </div>
 
         <button
             type="submit"
-            disabled={loading}
+            disabled={loading || uploadingImage}
             className="w-full bg-theme text-theme-primary py-4 px-6 rounded-lg hover:bg-theme-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme disabled:opacity-50 transition-colors font-semibold text-lg"
           >
-            {loading ? 'Submitting...' : 'Submit Testimonial'}
+            {uploadingImage ? 'Uploading image...' : loading ? 'Submitting...' : 'Submit Testimonial'}
           </button>
 
           <p className="text-sm text-theme-secondary text-center">

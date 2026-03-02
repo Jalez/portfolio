@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { X, ExternalLink } from 'lucide-react';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Work } from '../../types';
 
@@ -14,19 +14,22 @@ interface WorkCardOverlayProps {
 const WorkCardOverlay: React.FC<WorkCardOverlayProps> = ({ work, onClose }) => {
   return (
     <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300">
-      {/* Close button */}
-      <Button
-        onClick={onClose}
-        variant="ghost"
-        size="icon"
-        className="absolute top-4 right-4 z-10"
-        aria-label="Close description"
-      >
-        <X className="h-6 w-6" />
-      </Button>
-
       <Card className="text-center max-w-lg bg-card/95 backdrop-blur-sm">
-        <CardContent className="pt-6">
+        <CardHeader className="relative pb-2">
+          <Button
+            onClick={onClose}
+            variant="ghost"
+            size="icon"
+            className="absolute top-0 right-0"
+            aria-label="Close description"
+          >
+            <X className="h-5 w-5" />
+          </Button>
+          <CardTitle className="text-lg sm:text-xl lg:text-2xl pr-8">
+            {work.title}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
           <p className="text-card-foreground text-sm sm:text-base lg:text-lg leading-relaxed">
             {work.description}
           </p>

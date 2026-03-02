@@ -121,6 +121,12 @@ export const MOCK_WORKS: Work[] = [
     title: 'Scriba',
     description: 'Rich text editor with OCR for text extraction, text and image generation, collaboration through websocket connection, blob storage for files, stripe for payments Build with Next.js, Shadcn/ui, Tailwind CSS, PostgreSQL, Redis, Docker, aws, vercel, and more.',
     url: 'https://scriba-web.vercel.app/'
+  },
+  {
+    id: 2,
+    title: 'Hippos Committee Portal',
+    description: 'Resident committee portal for managing community engagement — event management with Google Calendar integration, treasury and budget tracking, entity relationship picker with smart auto-fill and priority-based value sync, meeting minutes via Google Drive, mail system with SMTP/IMAP, inventory management, polls, submissions workflow, info reel kiosk mode, RBAC, i18n (EN/FI/SV/DE), and contact forms. Built with React Router 7, Tailwind CSS 4, Shadcn/ui, Drizzle ORM, Neon PostgreSQL, TanStack Query, Google Cloud APIs, Resend, Vercel, Docker, and Bun.',
+    url: 'https://hippoksenasukastoimikunta.fi/?view=infoReel'
   }
 ];
 

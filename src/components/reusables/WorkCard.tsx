@@ -34,11 +34,6 @@ const WorkCard: React.FC<WorkCardProps> = ({ work }) => {
 
   return (
     <div className="group">
-      {/* Title */}
-      <h3 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-semibold mb-3 sm:mb-4 text-theme-primary group-hover:text-theme-primary transition-colors leading-tight text-center">
-        {work.title}
-      </h3>
-
       {/* Iframe Container */}
       <div
         className="relative w-full h-96 sm:h-[28rem] lg:h-[32rem] xl:h-[36rem] rounded-lg overflow-hidden border-2 border-theme-border bg-theme-card shadow-lg transition-all duration-300 hover:shadow-xl"

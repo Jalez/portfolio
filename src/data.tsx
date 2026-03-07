@@ -127,6 +127,12 @@ export const MOCK_WORKS: Work[] = [
     title: 'Hippos Committee Portal',
     description: 'Resident committee portal for managing community engagement — event management with Google Calendar integration, treasury and budget tracking, entity relationship picker with smart auto-fill and priority-based value sync, meeting minutes via Google Drive, mail system with SMTP/IMAP, inventory management, polls, submissions workflow, info reel kiosk mode, RBAC, i18n (EN/FI/SV/DE), and contact forms. Built with React Router 7, Tailwind CSS 4, Shadcn/ui, Drizzle ORM, Neon PostgreSQL, TanStack Query, Google Cloud APIs, Resend, Vercel, Docker, and Bun.',
     url: 'https://hippoksenasukastoimikunta.fi/?view=infoReel'
+  },
+  {
+    id: 3,
+    title: 'Hello UI!',
+    description: 'Interactive web development learning platform for creating and playing HTML, CSS, and JavaScript challenge games with live code editing, real-time collaboration, creator/game modes, level and map editor, scoring and difficulty systems, public and access-key-protected game publishing, group and individual gameplay instances, LTI integration, progress syncing, reset/review flows, responsive creator tooling, themed UI, and collaborative presence features such as cursors, typing state, and shared room state. Built with Next.js, React, TypeScript, Tailwind CSS, Shadcn/ui, Redux, CodeMirror, WebSockets, Docker, and Apache-reverse-proxied production deployment.',
+    url: 'https://tie-lukioplus.rd.tuni.fi/css-artist'
   }
 ];
 

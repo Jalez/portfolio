@@ -124,7 +124,7 @@ export const MOCK_WORKS: Work[] = [
   },
   {
     id: 2,
-    title: 'Hippos Committee Portal',
+    title: 'Committee Portal',
     description: 'Resident committee portal for managing community engagement — event management with Google Calendar integration, treasury and budget tracking, entity relationship picker with smart auto-fill and priority-based value sync, meeting minutes via Google Drive, mail system with SMTP/IMAP, inventory management, polls, submissions workflow, info reel kiosk mode, RBAC, i18n (EN/FI/SV/DE), and contact forms. Built with React Router 7, Tailwind CSS 4, Shadcn/ui, Drizzle ORM, Neon PostgreSQL, TanStack Query, Google Cloud APIs, Resend, Vercel, Docker, and Bun.',
     url: 'https://hippoksenasukastoimikunta.fi/?view=infoReel'
   },

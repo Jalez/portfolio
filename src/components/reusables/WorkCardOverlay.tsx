@@ -14,7 +14,7 @@ interface WorkCardOverlayProps {
 const WorkCardOverlay: React.FC<WorkCardOverlayProps> = ({ work, onClose }) => {
   return (
     <div className="absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-300">
-      <Card className="text-center max-w-lg bg-card/95 backdrop-blur-sm">
+      <Card className="max-w-lg bg-card/95 backdrop-blur-sm">
         <CardHeader className="relative pb-2">
           <Button
             onClick={onClose}
@@ -25,16 +25,16 @@ const WorkCardOverlay: React.FC<WorkCardOverlayProps> = ({ work, onClose }) => {
           >
             <X className="h-5 w-5" />
           </Button>
-          <CardTitle className="text-lg sm:text-xl lg:text-2xl pr-8">
+          <CardTitle className="text-center text-lg sm:text-xl lg:text-2xl pr-8">
             {work.title}
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <p className="text-card-foreground text-sm sm:text-base lg:text-lg leading-relaxed">
+        <CardContent className="max-h-48 overflow-y-auto">
+          <p className="text-card-foreground text-xs sm:text-sm leading-relaxed text-justify">
             {work.description}
           </p>
         </CardContent>
-        <CardFooter className="justify-center">
+        <CardFooter className="justify-center pt-6">
           <Button asChild size="lg">
             <a
               href={work.url}

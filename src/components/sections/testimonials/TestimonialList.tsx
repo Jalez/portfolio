@@ -40,7 +40,7 @@ const TestimonialList: React.FC<TestimonialListProps> = ({ testimonials, loading
   ));
 
   return (
-    <div className="p-6">
+    <div className="p-6 testimonial-cards">
       <Carousel>{testimonialCards}</Carousel>
     </div>
   );

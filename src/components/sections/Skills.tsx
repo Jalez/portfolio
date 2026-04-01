@@ -42,7 +42,7 @@ const SkillCard: React.FC<{ skill: Skill; isVisible: boolean; delay: number }> =
 };
 
 const Skills: React.FC = () => {
-  const skillCategories = ['Languages', 'Frontend', 'Backend', 'Databases', 'Tools'] as const;
+  const skillCategories = ['AI / ML', 'Languages', 'Frontend', 'Backend', 'Databases', 'Tools'] as const;
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -125,8 +125,8 @@ const Skills: React.FC = () => {
         {/* Tablet View - Balanced Layout */}
         <div className="hidden md:flex lg:hidden flex-1 gap-4">
           <div className="flex-1 flex flex-col gap-4">
-            {/* Left Column - Languages & Frontend */}
-            {['Languages', 'Frontend'].map((category, catIndex) => {
+            {/* Left Column - AI / ML, Languages & Frontend */}
+            {['AI / ML', 'Languages', 'Frontend'].map((category, catIndex) => {
               const categorySkills = MOCK_SKILLS.filter(skill => skill.category === category);
               if (categorySkills.length === 0) return null;
               return (

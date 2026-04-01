@@ -37,7 +37,7 @@ export interface Skill {
   id: number;
   name: string;
   icon?: React.ReactElement; // Changed from React.ReactNode to React.ReactElement
-  category: 'Frontend' | 'Backend' | 'Databases' | 'Tools' | 'Languages';
+  category: 'AI / ML' | 'Frontend' | 'Backend' | 'Databases' | 'Tools' | 'Languages';
   level?: number; // Optional: 1-5 or 1-100 for proficiency
 }
 

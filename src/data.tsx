@@ -56,7 +56,13 @@ import {
   ReactRouterIcon,
   PiniaIcon,
   ZustandIcon,
-  ThreeJSIcon
+  ThreeJSIcon,
+  LangchainIcon,
+  HuggingfaceIcon,
+  OpenaiIcon,
+  OllamaIcon,
+  AnthropicIcon,
+  GoogleGeminiIcon
 } from './constants';
 
 export const NAV_LINKS: NavLink[] = [
@@ -124,8 +130,8 @@ export const MOCK_WORKS: Work[] = [
   },
   {
     id: 2,
-    title: 'Committee Portal',
-    description: 'Resident committee portal for managing community engagement — event management with Google Calendar integration, treasury and budget tracking, entity relationship picker with smart auto-fill and priority-based value sync, meeting minutes via Google Drive, mail system with SMTP/IMAP, inventory management, polls, submissions workflow, info reel kiosk mode, RBAC, i18n (EN/FI/SV/DE), and contact forms. Built with React Router 7, Tailwind CSS 4, Shadcn/ui, Drizzle ORM, Neon PostgreSQL, TanStack Query, Google Cloud APIs, Resend, Vercel, Docker, and Bun.',
+    title: 'AI-Powered Community Management Platform',
+    description: 'AI-enhanced resident committee portal — receipt OCR for automated expense processing, semantic search via pgvector, document analysis with AI extraction, AI-powered translation (EN/FI/SV/DE), and email intelligence for smart routing. Also features event management with Google Calendar integration, treasury and budget tracking, entity relationship picker with smart auto-fill and priority-based value sync, meeting minutes via Google Drive, mail system with SMTP/IMAP, inventory management, polls, submissions workflow, info reel kiosk mode, RBAC, and contact forms. Built with React Router 7, Tailwind CSS 4, Shadcn/ui, Drizzle ORM, Neon PostgreSQL, TanStack Query, Google Cloud APIs, Resend, Vercel, Docker, and Bun.',
     url: 'https://hippoksenasukastoimikunta.fi/?view=infoReel'
   },
   {
@@ -200,6 +206,16 @@ export const MOCK_TESTIMONIALS: Testimonial[] = [
 ];
 
 export const MOCK_SKILLS: Skill[] = [
+  // AI / ML
+  { id: 100, name: 'RAG Pipelines', category: 'AI / ML', icon: <LangchainIcon className="w-10 h-10 text-theme-primary" />, level: 85 },
+  { id: 101, name: 'LLM Fine-Tuning (Unsloth, LoRA)', category: 'AI / ML', icon: <HuggingfaceIcon className="w-10 h-10 text-theme-primary" />, level: 80 },
+  { id: 102, name: 'Prompt Engineering', category: 'AI / ML', icon: <OpenaiIcon className="w-10 h-10 text-theme-primary" />, level: 90 },
+  { id: 103, name: 'pgvector', category: 'AI / ML', icon: <PostgreSQLIcon className="w-10 h-10 text-theme-primary" />, level: 80 },
+  { id: 104, name: 'Document AI & OCR', category: 'AI / ML', icon: <GoogleGeminiIcon className="w-10 h-10 text-theme-primary" />, level: 80 },
+  { id: 105, name: 'Multi-Model Orchestration (OpenRouter, Ollama)', category: 'AI / ML', icon: <OllamaIcon className="w-10 h-10 text-theme-primary" />, level: 80 },
+  { id: 106, name: 'Vercel AI SDK', category: 'AI / ML', icon: <VercelIcon className="w-10 h-10 text-theme-primary" />, level: 85 },
+  { id: 107, name: 'MCP', category: 'AI / ML', icon: <AnthropicIcon className="w-10 h-10 text-theme-primary" />, level: 75 },
+
   // Languages
   { id: 1, name: 'JavaScript (ES6+)', category: 'Languages', icon: <JavaScriptIcon className="w-10 h-10 text-theme-primary" />, level: 90 },
   { id: 2, name: 'TypeScript', category: 'Languages', icon: <TypeScriptIcon className="w-10 h-10 text-theme-primary" />, level: 90 },

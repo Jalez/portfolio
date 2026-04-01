@@ -47,13 +47,19 @@ import {
   SiRemix,
   SiRedux,
   SiReactrouter,
-  SiThreedotjs
+  SiThreedotjs,
+  SiLangchain,
+  SiHuggingface,
+  SiOpenai,
+  SiOllama,
+  SiAnthropic,
+  SiGooglegemini
 } from 'react-icons/si';
 
 // Import generic icons for VS Code
 import { VscCode } from 'react-icons/vsc';
 
-export const ABOUT_DESCRIPTION = "Full-stack developer who loves turning wild ideas into clean, working code. I build things that matter, solve real problems, and maybe break a few things along the way (in a good way, I promise).";
+export const ABOUT_DESCRIPTION = "I build complete, AI-enhanced products — from architecture to production deployment. 5+ years shipping production applications with integrated AI: RAG pipelines, LLM fine-tuning, document intelligence, and vector search.";
 
 // Technology-specific icons
 export const JavaScriptIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiJavascript {...props} />;
@@ -195,3 +201,11 @@ export const MongooseIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => 
 export const ElmIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiElm {...props} />;
 export const JqueryIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiJquery {...props} />;
 export const RemixIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiRemix {...props} />;
+
+// AI / ML icons
+export const LangchainIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiLangchain {...props} />;
+export const HuggingfaceIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiHuggingface {...props} />;
+export const OpenaiIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiOpenai {...props} />;
+export const OllamaIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiOllama {...props} />;
+export const AnthropicIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiAnthropic {...props} />;
+export const GoogleGeminiIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiGooglegemini {...props} />;

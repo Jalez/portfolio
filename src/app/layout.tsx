@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Jaakko Rajala - Full Stack Developer",
-  description: "Full-stack developer who loves turning wild ideas into clean, working code.",
+  title: "Jaakko Rajala - AI & Full-Stack Engineer",
+  description: "I build complete, AI-enhanced products — from architecture to production deployment. 5+ years shipping production applications with integrated AI.",
 };
 
 export default function RootLayout({

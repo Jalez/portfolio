@@ -43,13 +43,11 @@ const Hero: React.FC = () => {
               });
 
               aboutTypewriter
-                .typeString("Full-stack developer who loves turning wild ideas into clean, working code.")
+                .typeString("I build complete, <strong>AI-enhanced</strong> products — from architecture to production deployment.")
                 .pauseFor(800)
-                .typeString(" I build things that matter, solve real problems, and <strong>maybe</strong> break a few things along the way")
-                .pauseFor(1500)
-                //new line
-                .typeString("<br>")
-                .typeString(" (in a good way, I promise!).")
+                .typeString("<br>5+ years shipping production applications with integrated AI:")
+                .pauseFor(500)
+                .typeString(" RAG pipelines, LLM fine-tuning, document intelligence, and vector search.")
                 .callFunction(() => {
                   // Hide cursor from about description after completion
                   if (aboutTypewriterRef.current) {
@@ -105,11 +103,17 @@ const Hero: React.FC = () => {
                 />
              
               
+              {/* Education & Background */}
+              <p className="text-sm text-theme-secondary leading-relaxed text-center mt-2">
+                M.Sc. Web & Cloud Computing (ongoing) &middot; B.Sc. Data Science — Tampere University<br />
+                Teaching experience &middot; Native Finnish &middot; Fluent English
+              </p>
+
               {/* Quick Stats */}
               <div className="grid grid-cols-2 gap-4 mt-6">
                 <Card className="text-center">
                   <CardContent className="p-3 sm:p-4">
-                    <div className="text-2xl font-bold text-theme-primary">4+</div>
+                    <div className="text-2xl font-bold text-theme-primary">5+</div>
                     <div className="text-sm text-theme-secondary">Years Experience</div>
                   </CardContent>
                 </Card>

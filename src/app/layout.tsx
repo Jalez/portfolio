@@ -45,7 +45,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* Preload hero image to prevent flicker */}
-        <link rel="preload" href="/whiteprofilepic_cropped.png" as="image" />
+        <link rel="preload" href="/whiteprofilepic_cropped.webp" as="image" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

@@ -85,7 +85,7 @@ const Hero: React.FC = () => {
               >
                 <img
                   className="avatar-effect-portrait"
-                  src="/whiteprofilepic_cropped.png"
+                  src="/whiteprofilepic_cropped.webp"
                   alt="Jaakko Rajala"
                 />
               </div>

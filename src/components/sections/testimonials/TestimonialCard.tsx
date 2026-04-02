@@ -41,41 +41,17 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, index = 
         <CardContent className="p-4 sm:p-6 h-full">
           <div className="flex flex-col h-full">
             {/* Avatar dome */}
-            <div className="flex justify-center mb-4 pt-2">
+            <div className="flex justify-center mb-4">
               <div
-                className={`relative isolate ${isTransparent ? 'avatar-pop' : ''}`}
-                style={{ width: '8rem', height: '5.5rem' }}
+                className={`avatar-effect ${isTransparent ? 'avatar-pop' : 'avatar-effect--static'}`}
+                style={{ '--c': ringColor, '--cb': 'var(--bg-primary)' } as React.CSSProperties}
               >
-                {isTransparent ? (
-                  <>
-                    {/* Dome shell — ring only */}
-                    <div
-                      className="avatar-effect w-full h-full"
-                      style={{ '--ring-color': ringColor } as React.CSSProperties}
-                    />
-                    {/* Portrait behind shell — pops on hover */}
-                    <div className="avatar-effect-portrait">
-                      <img
-                        src={imageUrl}
-                        alt={testimonial.author}
-                        onError={handleImgError}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  /* Static dome crop for opaque images */
-                  <div
-                    className="avatar-static w-full h-full"
-                    style={{ '--ring-color': ringColor } as React.CSSProperties}
-                  >
-                    <img
-                      src={imageUrl}
-                      alt={testimonial.author}
-                      className="w-full h-full object-cover object-top"
-                      onError={handleImgError}
-                    />
-                  </div>
-                )}
+                <img
+                  className={`avatar-effect-portrait ${!isTransparent ? 'avatar-effect-portrait--static' : ''}`}
+                  src={imageUrl}
+                  alt={testimonial.author}
+                  onError={handleImgError}
+                />
               </div>
             </div>
 

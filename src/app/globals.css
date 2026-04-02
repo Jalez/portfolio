@@ -182,49 +182,155 @@ button {
 
 /* ── Avatar dome / pop effect ────────────────────────────── */
 
-/* Static dome frame (non-transparent images) */
-.avatar-static {
-  border-radius: 0 0 999px 999px;
-  border: 3px solid var(--ring-color, var(--border-color));
-  overflow: hidden;
-}
-
-/* Dome shell — the ring frame (transparent images) */
+/* Committee member avatar shape effect */
 .avatar-effect {
+  --b: 6px;
+  --s: 96px;
+  --pt: calc(var(--s) / 5);
+
+  display: block;
   position: relative;
-  z-index: 1;
+  isolation: isolate;
+  max-width: none;
+  height: auto;
+  box-sizing: content-box;
+  overflow: visible;
+  cursor: pointer;
+  object-fit: cover;
+  flex-shrink: 0;
+  width: var(--s);
+  aspect-ratio: 1;
+  padding-top: var(--pt);
   border-radius: 0 0 999px 999px;
-  border: 3px solid var(--ring-color, var(--border-color));
-  -webkit-mask: radial-gradient(circle at 50% 0%, transparent 15%, black 16%);
-  mask: radial-gradient(circle at 50% 0%, transparent 15%, black 16%);
+
+  --_g: 50% / 100% 100% no-repeat content-box;
+  --_o: calc(-1 * var(--b));
+
+  outline: var(--b) solid var(--c);
+  outline-offset: var(--_o);
+  background: radial-gradient(circle closest-side,
+    var(--cb) calc(99% - var(--b)),
+    var(--c) calc(100% - var(--b)) 99%,
+    #0000) var(--_g);
+  -webkit-mask:
+    linear-gradient(#000 0 0) no-repeat 50% calc(1px - var(--_o)) / calc(100% - 2 * var(--b) - 2px) 50%,
+    radial-gradient(circle closest-side, #000 99%, #0000) var(--_g);
+  mask:
+    linear-gradient(#000 0 0) no-repeat 50% calc(1px - var(--_o)) / calc(100% - 2 * var(--b) - 2px) 50%,
+    radial-gradient(circle closest-side, #000 99%, #0000) var(--_g);
 }
 
-/* Portrait layer — sits behind the shell, pops on hover */
+/* PNG portrait layer that can grow beyond the static border shell. */
 .avatar-effect-portrait {
+  --pop: 1;
+  --pop-shift: 0%;
   position: absolute;
   inset: 0;
   z-index: -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding-top: var(--pt);
+  box-sizing: border-box;
   border-radius: 0 0 999px 999px;
-  overflow: hidden;
-  -webkit-mask: radial-gradient(circle at 50% 0%, transparent 15%, black 16%);
-  mask: radial-gradient(circle at 50% 0%, transparent 15%, black 16%);
+  object-fit: cover;
+  object-position: top center;
+  -webkit-mask:
+    linear-gradient(#000 0 0) no-repeat 50% calc(1px - var(--_o)) / calc(100% - 2 * var(--b) - 2px) 50%,
+    radial-gradient(circle closest-side, #000 99%, #0000) var(--_g);
+  mask:
+    linear-gradient(#000 0 0) no-repeat 50% calc(1px - var(--_o)) / calc(100% - 2 * var(--b) - 2px) 50%,
+    radial-gradient(circle closest-side, #000 99%, #0000) var(--_g);
+  transform: translateY(calc((var(--pop) - 1) * var(--pop-shift))) translateZ(0) scale(var(--pop));
   transform-origin: center bottom;
-  --pop: 0.94;
-  --pop-shift: 0%;
-  transform: scale(var(--pop)) translateY(var(--pop-shift));
+  will-change: transform;
   transition: transform 0.5s ease;
 }
 
-.avatar-effect-portrait img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
+.avatar-effect--static {
+  padding-top: 0;
+  margin-top: var(--pt);
+  height: var(--s);
+  border-radius: 50%;
+  mask: none;
+  -webkit-mask: none;
+  background: var(--cb);
+  border: var(--b) solid var(--c);
+  outline: none;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
+.avatar-effect-portrait--static {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 0;
+  border-radius: 0;
+  mask: none;
+  -webkit-mask: none;
+  transform: none !important;
+  transition: none !important;
+  z-index: 1;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+@media (min-width: 768px) {
+  .avatar-effect {
+    --s: 112px;
+  }
+}
+
+.avatar-effect--fallback .avatar-effect-initials {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--pt);
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  line-height: 1;
+  color: var(--c);
+  text-shadow: 0 1px 0 color-mix(in oklch, var(--card) 70%, transparent);
+  user-select: none;
+  pointer-events: none;
+}
+
+.avatar-effect--fallback {
+  background-color: transparent;
+}
+
+/* Hero avatar — larger dome */
+.avatar-effect--hero {
+  --s: 200px;
+  --pt: calc(var(--s) / 3.2);
+}
+
+@media (min-width: 640px) {
+  .avatar-effect--hero {
+    --s: 260px;
+  }
+}
+
+@media (min-width: 768px) {
+  .avatar-effect--hero {
+    --s: 260px;
+  }
+}
+
+.group:hover .avatar-pop .avatar-effect-portrait,
 .avatar-pop:hover .avatar-effect-portrait {
   --pop: 1.4;
   --pop-shift: 22%;
+}
+
+/* PNG portraits start slightly smaller so they sit fully inside borders before hover. */
+.avatar-pop .avatar-effect-portrait {
+  --pop: 0.94;
 }
 
 /* Card-level dimming — desktop only */

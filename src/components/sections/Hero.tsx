@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useScrollFade } from '../../hooks/useScrollFade';
-import GradientBackground from '../reusables/GradientBackground';
 
 // @ts-ignore
 import Typewriter from 'typewriter-effect/dist/core';
@@ -77,17 +76,19 @@ const Hero: React.FC = () => {
           <div className="flex flex-col items-center justify-center space-y-8">
             {/* Profile Image */}
             <div className="flex justify-center">
-              <GradientBackground 
-                variant="profile" 
-                size="lg" 
-                className="relative border-none"
+              <div
+                className="avatar-effect avatar-effect--hero avatar-pop"
                 style={{
-                  backgroundImage: 'url(/whiteprofilepic_cropped.png)',
-                  backgroundSize: '93%',
-                  backgroundPosition: 'center',
-                  backgroundRepeat: 'no-repeat'
-                }}
-              />
+                  '--c': 'var(--border-color)',
+                  '--cb': 'var(--bg-primary)',
+                } as React.CSSProperties}
+              >
+                <img
+                  className="avatar-effect-portrait"
+                  src="/whiteprofilepic_cropped.png"
+                  alt="Jaakko Rajala"
+                />
+              </div>
             </div>
 
             {/* About Content */}

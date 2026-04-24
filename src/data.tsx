@@ -14,6 +14,7 @@ import {
   GitIcon, 
   DockerIcon,
   VueJSIcon,
+  SvelteIcon,
   JavaIcon,
   CPlusPlusIcon,
   GraphQLIcon,
@@ -138,7 +139,7 @@ export const MOCK_WORKS: Work[] = [
     id: 3,
     title: 'Hello UI!',
     description: 'Interactive web development learning platform for creating and playing HTML, CSS, and JavaScript challenge games with live code editing, real-time collaboration, creator/game modes, level and map editor, scoring and difficulty systems, public and access-key-protected game publishing, group and individual gameplay instances, LTI integration, progress syncing, reset/review flows, responsive creator tooling, themed UI, and collaborative presence features such as cursors, typing state, and shared room state. Built with Next.js, React, TypeScript, Tailwind CSS, Shadcn/ui, Redux, CodeMirror, WebSockets, Docker, and Apache-reverse-proxied production deployment.',
-    url: 'https://tie-lukioplus.rd.tuni.fi/css-artist'
+    url: 'https://itc-games.rd.tuni.fi/hello-ui/'
   }
 ];
 
@@ -228,6 +229,7 @@ export const MOCK_SKILLS: Skill[] = [
   { id: 7, name: 'React', category: 'Frontend', icon: <ReactIcon className="w-10 h-10 text-theme-primary" />, level: 95 },
   { id: 8, name: 'React Native', category: 'Frontend', icon: <ReactNativeIcon className="w-10 h-10 text-theme-primary" />, level: 80 },
   { id: 9, name: 'Vue.js', category: 'Frontend', icon: <VueJSIcon className="w-10 h-10 text-theme-primary" />, level: 80 },
+  { id: 60, name: 'Svelte', category: 'Frontend', icon: <SvelteIcon className="w-10 h-10 text-theme-primary" />, level: 75 },
   { id: 10, name: 'Next.js', category: 'Frontend', icon: <NextJSIcon className="w-10 h-10 text-theme-primary" />, level: 85 },
   { id: 11, name: 'Tailwind CSS', category: 'Frontend', icon: <TailwindIcon className="w-10 h-10 text-theme-primary" />, level: 90 },
   { id: 12, name: 'Sass/SCSS', category: 'Frontend', icon: <SassIcon className="w-10 h-10 text-theme-primary" />, level: 85 },

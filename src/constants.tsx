@@ -53,7 +53,8 @@ import {
   SiOpenai,
   SiOllama,
   SiAnthropic,
-  SiGooglegemini
+  SiGooglegemini,
+  SiSvelte
 } from 'react-icons/si';
 
 // Import generic icons for VS Code
@@ -78,6 +79,7 @@ export const DockerIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <S
 
 // Additional technology icons
 export const VueJSIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiVuedotjs {...props} />;
+export const SvelteIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiSvelte {...props} />;
 export const JavaIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiOpenjdk {...props} />;
 export const CPlusPlusIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiCplusplus {...props} />;
 export const GraphQLIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <SiGraphql {...props} />;
